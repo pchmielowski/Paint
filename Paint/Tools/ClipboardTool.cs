@@ -41,7 +41,7 @@
 //      }
 //    }
 
-//    protected override void OnMouseMove(object sender, MouseEventArgs e) {
+//    protected override void UpdateMousePosition(object sender, MouseEventArgs e) {
 //      curPoint = e.Location;
 //      if (drawing) {
 //        // delete old
@@ -58,7 +58,7 @@
 //      }
 //    }
 
-//    protected override void OnMouseUp(object sender, MouseEventArgs e) {
+//    protected override void StopDrawing(object sender, MouseEventArgs e) {
 //      drawing = false;
 //      if (e.Button == MouseButtons.Left) {
 //        if ((action == ClipboardAction.Copy) || (action == ClipboardAction.Cut)) {

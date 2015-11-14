@@ -21,7 +21,8 @@ namespace Paint
       args.pictureBox.Cursor = Cursors.Cross;
     }
 
-    public override void OnMouseUp(object sender, MouseEventArgs e) {
+    public override void StopDrawing(MouseEventArgs e)
+    {
       drawing = false;
       args.pictureBox.Invalidate();
 
@@ -30,7 +31,8 @@ namespace Paint
       g.Dispose();
     }
 
-    public override void OnMouseMove(object sender, MouseEventArgs e) {
+    public override void UpdateMousePosition(MouseEventArgs e)
+    {
       Point curPoint = e.Location;
       if (drawing) {
         g.DrawLine(pen, prevPoint, curPoint);
@@ -41,8 +43,9 @@ namespace Paint
       ShowPointInStatusBar(curPoint);
     }
 
-    public override void OnMouseDown(object sender, MouseEventArgs e) {
-      if (e.Button == MouseButtons.Left) {
+    public override void StartDrawing(MouseEventArgs e)
+    {
+
         drawing = true;
         prevPoint = e.Location;
 
@@ -56,7 +59,7 @@ namespace Paint
 
         g = args.pictureBox.CreateGraphics();
         bmpGraphics = Graphics.FromImage(args.bitmap);
-      }
+
     }
 
     public override void UnloadTool() {

@@ -19,13 +19,13 @@ namespace Paint
             args.pictureBox.Cursor = Cursors.Cross;
         }
 
-        public override void OnMouseUp(object sender, MouseEventArgs e)
-        {
+        public override void StopDrawing(MouseEventArgs e)
+    {
             drawing = false;
         }
 
-        public override void OnMouseMove(object sender, MouseEventArgs e)
-        {
+        public override void UpdateMousePosition(MouseEventArgs e)
+    {
             Point curPoint = e.Location;
             if (drawing)
             {
@@ -36,16 +36,15 @@ namespace Paint
             ShowPointInStatusBar(curPoint);
         }
 
-        public override void OnMouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void StartDrawing(MouseEventArgs e)
+    {
+
                 drawing = true;
                 prevPoint = e.Location;
                 pen = new Pen(args.settings.PrimaryColor, 1);
                 g = args.pictureBox.CreateGraphics();
                 bmpGraphics = Graphics.FromImage(args.bitmap);
-            }
+
         }
 
         public override void UnloadTool()

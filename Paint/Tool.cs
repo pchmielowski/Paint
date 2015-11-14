@@ -97,9 +97,9 @@ namespace Paint
         }
 
 
-    public abstract void OnMouseUp(object sender, MouseEventArgs e);
-    public abstract void OnMouseMove(object sender, MouseEventArgs e);
-    public abstract void OnMouseDown(object sender, MouseEventArgs e);
+    public abstract void StopDrawing(MouseEventArgs e);
+    public abstract void UpdateMousePosition(MouseEventArgs e);
+    public abstract void StartDrawing(MouseEventArgs e);
 
     public abstract void UnloadTool();
 

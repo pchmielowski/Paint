@@ -17,20 +17,20 @@
 //            drawing = false;
 //            args.pictureBox.Cursor = Cursors.Cross;
 //            args.pictureBox.MouseDown += new MouseEventHandler(OnMouseDown);
-//            args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
-//            args.pictureBox.MouseUp += new MouseEventHandler(OnMouseUp);
+//            args.pictureBox.MouseMove += new MouseEventHandler(UpdateMousePosition);
+//            args.pictureBox.MouseUp += new MouseEventHandler(StopDrawing);
 //        }
 
-//        protected abstract void OnMouseUp(object sender, MouseEventArgs e);
+//        protected abstract void StopDrawing(object sender, MouseEventArgs e);
 //        protected abstract void OnMouseDown(object sender, MouseEventArgs e);
-//        protected abstract void OnMouseMove(object sender, MouseEventArgs e);
+//        protected abstract void UpdateMousePosition(object sender, MouseEventArgs e);
 
 //        public override void UnloadTool()
 //        {
 //            args.pictureBox.Cursor = Cursors.Arrow;
 //            args.pictureBox.MouseDown -= new MouseEventHandler(OnMouseDown);
-//            args.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
-//            args.pictureBox.MouseUp -= new MouseEventHandler(OnMouseUp);
+//            args.pictureBox.MouseMove -= new MouseEventHandler(UpdateMousePosition);
+//            args.pictureBox.MouseUp -= new MouseEventHandler(StopDrawing);
 //        }
 //    }
 //}

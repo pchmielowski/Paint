@@ -29,19 +29,20 @@ namespace Paint
 
     private void OnMouseUp(object sender, MouseEventArgs e)
     {
-      tool_.OnMouseUp(sender, e);
+      if (e.Button == MouseButtons.Left)
+        tool_.StopDrawing(e);
     }
 
     private void OnMouseMove(object sender, MouseEventArgs e)
     {
-
-      tool_.OnMouseMove(sender, e);
+      // TODO: updatowanie statusbaru
+      tool_.UpdateMousePosition(e);
     }
 
     private void OnMouseDown(object sender, MouseEventArgs e)
     {
 
-      tool_.OnMouseDown(sender, e);
+      tool_.StartDrawing(e);
     }
   }
 }

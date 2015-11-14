@@ -13,17 +13,17 @@ namespace Paint
       args.pictureBox.Cursor = Cursors.Arrow;
     }
 
-    public override void OnMouseMove(object sender, MouseEventArgs e)
+    public override void UpdateMousePosition(MouseEventArgs e)
     {
       // show cursor location in status bar
       ShowPointInStatusBar(e.Location);
     }
-    public override void OnMouseDown(object sender, MouseEventArgs e)
+    public override void StartDrawing(MouseEventArgs e)
     {
       // show cursor location in status bar
       ShowPointInStatusBar(e.Location);
     }
-    public override void OnMouseUp(object sender, MouseEventArgs e)
+    public override void StopDrawing(MouseEventArgs e)
     {
       // show cursor location in status bar
       ShowPointInStatusBar(e.Location);

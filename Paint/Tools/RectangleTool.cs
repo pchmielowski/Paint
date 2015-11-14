@@ -26,8 +26,8 @@ namespace Paint
             args.pictureBox.Cursor = Cursors.Cross;
         }
 
-        public override void OnMouseUp(object sender, MouseEventArgs e)
-        {
+        public override void StopDrawing(MouseEventArgs e)
+    {
             if (drawing)
             {
                 args.pictureBox.Invalidate();
@@ -46,8 +46,8 @@ namespace Paint
             }
         }
 
-        public override void OnMouseMove(object sender, MouseEventArgs e)
-        {
+        public override void UpdateMousePosition(MouseEventArgs e)
+    {
             if (drawing)
             {
                 // delete old rectangle
@@ -68,10 +68,9 @@ namespace Paint
             }
         }
 
-        public override void OnMouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
+        public override void StartDrawing(MouseEventArgs e)
+    {
+
                 switch (args.settings.DrawMode)
                 {
                     case DrawMode.Outline:
@@ -103,7 +102,7 @@ namespace Paint
                 delBrush = new TextureBrush(args.bitmap);
                 delPen = new Pen(delBrush, args.settings.Width + 1);
                 //delPen.DashStyle = args.settings.LineStyle;
-            }
+
         }
 
         protected virtual void DrawRectangle(Pen outlinePen, Brush fillBrush)

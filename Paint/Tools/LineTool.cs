@@ -21,7 +21,7 @@ namespace Paint
       args.pictureBox.Cursor = Cursors.Cross;
     }
 
-    public override void OnMouseUp(object sender, MouseEventArgs e)
+    public override void StopDrawing(MouseEventArgs e)
     {
       if (drawing)
       {
@@ -36,7 +36,7 @@ namespace Paint
       }
     }
 
-    public override void OnMouseMove(object sender, MouseEventArgs e)
+    public override void UpdateMousePosition(MouseEventArgs e)
     {
       if (drawing)
       {
@@ -50,19 +50,12 @@ namespace Paint
         args.pictureBox.Invalidate();
 
         delRect = GetRectangleFromPoints(sPoint, e.Location);
-
-        ShowPointInStatusBar(sPoint, e.Location);
-      }
-      else
-      {
-        ShowPointInStatusBar(e.Location);
       }
     }
 
-    public override void OnMouseDown(object sender, MouseEventArgs e)
+    public override void StartDrawing(MouseEventArgs e)
     {
-      if (e.Button == MouseButtons.Left)
-      {
+
         drawing = true;
         sPoint = e.Location;
 
@@ -73,7 +66,7 @@ namespace Paint
 
         // delete brush
         delBrush = new TextureBrush(args.bitmap);
-      }
+      
     }
 
     public override void UnloadTool()
