@@ -5,4 +5,8 @@
 *.dll
 *.pdb
 
+Backup/
+.vs/
+*.htm
+
 Thumbs.db
