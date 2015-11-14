@@ -1,5 +1,3 @@
-
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,24 +5,24 @@ namespace Paint
 {
   public class BrushTool : Tool
   {
-    private bool drawing;
-    private BrushToolType toolType;
-    private Graphics bmpGraphics;
-    private Point prevPoint;
-    private Pen pen;
+    protected bool isDrawingState_;
+    protected BrushToolType toolType;
+    protected Graphics bmpGraphics;
+    protected Point previousPosition;
+    protected Pen pen;
 
     public BrushTool(ToolArgs args, BrushToolType type)
       : base(args)
     {
       toolType = type;
-      drawing = false;
+      isDrawingState_ = false;
 
       args.pictureBox.Cursor = Cursors.Cross;
     }
 
     public override void StopDrawing(MouseEventArgs e)
     {
-      drawing = false;
+      isDrawingState_ = false;
       args.pictureBox.Invalidate();
 
       pen.Dispose();
@@ -34,27 +32,25 @@ namespace Paint
 
     public override void UpdateMousePosition(MouseEventArgs e)
     {
-      Point curPoint = e.Location;
-      if (drawing)
+      Point currentPosition = e.Location;
+      if (isDrawingState_)
       {
-        g.DrawLine(pen, prevPoint, curPoint);
-        bmpGraphics.DrawLine(pen, prevPoint, curPoint);
-        prevPoint = curPoint;
+        g.DrawLine(pen, previousPosition, currentPosition);
+        bmpGraphics.DrawLine(pen, previousPosition, currentPosition);
+        previousPosition = currentPosition;
       }
-
-      ShowPointInStatusBar(curPoint);
     }
 
     public override void StartDrawing(MouseEventArgs e)
     {
 
-      drawing = true;
-      prevPoint = e.Location;
+      isDrawingState_ = true;
+      previousPosition = e.Location;
 
       if (toolType == BrushToolType.FreeBrush)
-        pen = new Pen(GetBrush(false), args.settings.Width);
+        pen = new Pen(GetBrush(false), GetWidth());
       else
-        pen = new Pen(args.settings.SecondaryColor, args.settings.Width);
+        pen = new Pen(args.settings.SecondaryColor, GetWidth());
 
       pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
       pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
@@ -62,6 +58,11 @@ namespace Paint
       g = args.pictureBox.CreateGraphics();
       bmpGraphics = Graphics.FromImage(args.bitmap);
 
+    }
+
+    protected virtual int GetWidth()
+    {
+      return args.settings.Width;
     }
 
     public override void UnloadTool()
