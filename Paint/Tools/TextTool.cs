@@ -11,8 +11,6 @@ namespace Paint
             : base(args)
         {
             args.pictureBox.Cursor = Cursors.Cross;
-            args.pictureBox.MouseUp += new MouseEventHandler(OnMouseUp);
-            args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
         }
 
         public override void OnMouseMove(object sender, MouseEventArgs e)
@@ -38,8 +36,6 @@ namespace Paint
         public override void UnloadTool()
         {
             args.pictureBox.Cursor = Cursors.Default;
-            args.pictureBox.MouseUp -= new MouseEventHandler(OnMouseUp);
-            args.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
         }
     }
 }

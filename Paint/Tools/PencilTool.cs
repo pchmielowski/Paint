@@ -17,9 +17,6 @@ namespace Paint
         {
             drawing = false;
             args.pictureBox.Cursor = Cursors.Cross;
-            args.pictureBox.MouseDown += new MouseEventHandler(OnMouseDown);
-            args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
-            args.pictureBox.MouseUp += new MouseEventHandler(OnMouseUp);
         }
 
         public override void OnMouseUp(object sender, MouseEventArgs e)
@@ -54,8 +51,6 @@ namespace Paint
         public override void UnloadTool()
         {
             args.pictureBox.Cursor = Cursors.Arrow;
-            args.pictureBox.MouseDown -= new MouseEventHandler(OnMouseDown);
-            args.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
         }
     }
 }

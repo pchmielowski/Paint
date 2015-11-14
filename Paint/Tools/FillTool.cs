@@ -17,7 +17,6 @@ namespace Paint
       : base(args) {
       args.pictureBox.Cursor = Cursors.Cross;
       args.pictureBox.MouseClick += new MouseEventHandler(OnMouseClick);
-      args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
 
       Rectangle bRect = new Rectangle(new Point(0, 0), args.bitmap.Size);
       bData = args.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, args.bitmap.PixelFormat);
@@ -88,7 +87,6 @@ namespace Paint
       args.bitmap.UnlockBits(bData);
       args.pictureBox.Cursor = Cursors.Default;
       args.pictureBox.MouseClick -= new MouseEventHandler(OnMouseClick);
-      args.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
     }
 
     private void FloodFillScanlineStack(int x, int y, Color newColor, Color oldColor) {

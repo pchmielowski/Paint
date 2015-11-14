@@ -25,6 +25,8 @@ namespace Paint
       InitializeComponent();
       toolsBar.ImageList = imageList;
       settings = (IPaintSettings)this;
+
+      mouseManager = new MouseManager();
     }
 
     private void toolsBar_ButtonClick(object sender, ToolBarButtonClickEventArgs e) {
@@ -38,7 +40,6 @@ namespace Paint
       }
       if (curButton == lineBtn) {
         curTool = new LineTool(toolArgs);
-        mouseManager = new MouseManager(curTool, toolArgs);
       } else if (curButton == rectangleBtn) {
         curTool = new RectangleTool(toolArgs);
       } else if (curButton == pencilBtn) {
@@ -54,6 +55,8 @@ namespace Paint
       } else if (curButton == eraserBtn) {
         curTool = new BrushTool(toolArgs, BrushToolType.Eraser);
       }
+
+      mouseManager.UpdateTool(curTool, toolArgs);
     }
 
     private void SetToolBarButtonsState(ToolBarButton curButton) {

@@ -11,7 +11,6 @@ namespace Paint
     public PointerTool(ToolArgs args)
       : base(args) {
       args.pictureBox.Cursor = Cursors.Arrow;
-      args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
     }
 
     public override void OnMouseMove(object sender, MouseEventArgs e)
@@ -31,8 +30,6 @@ namespace Paint
     }
 
     public override void UnloadTool() {
-      // remove event handlers
-      args.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
     }
   }
 }
