@@ -19,12 +19,12 @@ namespace Paint
     {
       drawing = false;
       args.pictureBox.Cursor = Cursors.Cross;
-      args.pictureBox.MouseDown += new MouseEventHandler(OnMouseDown);
-      args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
-      args.pictureBox.MouseUp += new MouseEventHandler(OnMouseUp);
+      //args.pictureBox.MouseDown += new MouseEventHandler(OnMouseDown);
+      //args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
+      //args.pictureBox.MouseUp += new MouseEventHandler(OnMouseUp);
     }
 
-    private void OnMouseUp(object sender, MouseEventArgs e)
+    public override void OnMouseUp(object sender, MouseEventArgs e)
     {
       if (drawing)
       {
@@ -39,7 +39,7 @@ namespace Paint
       }
     }
 
-    private void OnMouseMove(object sender, MouseEventArgs e)
+    public override void OnMouseMove(object sender, MouseEventArgs e)
     {
       if (drawing)
       {
@@ -47,14 +47,13 @@ namespace Paint
         int w = args.settings.Width;
         delRect.Inflate(w, w);
         g.FillRectangle(delBrush, delRect);
-        //g.DrawRectangle(Pens.Black, delRect);
 
         //draw the new line
         g.DrawLine(pen, sPoint, e.Location);
         args.pictureBox.Invalidate();
 
         delRect = GetRectangleFromPoints(sPoint, e.Location);
-        // show points info in status bar
+
         ShowPointInStatusBar(sPoint, e.Location);
       }
       else
@@ -63,7 +62,7 @@ namespace Paint
       }
     }
 
-    private void OnMouseDown(object sender, MouseEventArgs e)
+    public override void OnMouseDown(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Left)
       {
@@ -83,9 +82,9 @@ namespace Paint
     public override void UnloadTool()
     {
       args.pictureBox.Cursor = Cursors.Default;
-      args.pictureBox.MouseDown -= new MouseEventHandler(OnMouseDown);
-      args.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
-      args.pictureBox.MouseUp -= new MouseEventHandler(OnMouseUp);
+      //args.pictureBox.MouseDown -= new MouseEventHandler(OnMouseDown);
+      //args.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
+      //args.pictureBox.MouseUp -= new MouseEventHandler(OnMouseUp);
     }
   }
 }

@@ -14,7 +14,18 @@ namespace Paint
       args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
     }
 
-    private void OnMouseMove(object sender, MouseEventArgs e) {
+    public override void OnMouseMove(object sender, MouseEventArgs e)
+    {
+      // show cursor location in status bar
+      ShowPointInStatusBar(e.Location);
+    }
+    public override void OnMouseDown(object sender, MouseEventArgs e)
+    {
+      // show cursor location in status bar
+      ShowPointInStatusBar(e.Location);
+    }
+    public override void OnMouseUp(object sender, MouseEventArgs e)
+    {
       // show cursor location in status bar
       ShowPointInStatusBar(e.Location);
     }

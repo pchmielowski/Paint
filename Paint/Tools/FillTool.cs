@@ -60,9 +60,12 @@ namespace Paint
       }
     }
 
-    private void OnMouseMove(object sender, MouseEventArgs e) {
+    public override void OnMouseMove(object sender, MouseEventArgs e) {
       ShowPointInStatusBar(e.Location);
     }
+
+    public override void OnMouseUp(object sender, MouseEventArgs e) { }
+    public override void OnMouseDown(object sender, MouseEventArgs e) { }
 
     private void OnMouseClick(object sender, MouseEventArgs e) {
       Rectangle bRect = new Rectangle(new Point(0, 0), args.bitmap.Size);

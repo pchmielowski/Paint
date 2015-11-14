@@ -341,7 +341,7 @@
       this.label6.AutoSize = true;
       this.label6.Location = new System.Drawing.Point(186, 37);
       this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(79, 13);
+      this.label6.Size = new System.Drawing.Size(76, 13);
       this.label6.TabIndex = 13;
       this.label6.Text = "Texture Brush:";
       // 
@@ -368,7 +368,7 @@
       this.inverseLink.AutoSize = true;
       this.inverseLink.Location = new System.Drawing.Point(690, 37);
       this.inverseLink.Name = "inverseLink";
-      this.inverseLink.Size = new System.Drawing.Size(44, 13);
+      this.inverseLink.Size = new System.Drawing.Size(42, 13);
       this.inverseLink.TabIndex = 10;
       this.inverseLink.TabStop = true;
       this.inverseLink.Text = "Inverse";
@@ -401,7 +401,7 @@
       this.label4.AutoSize = true;
       this.label4.Location = new System.Drawing.Point(475, 11);
       this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(79, 13);
+      this.label4.Size = new System.Drawing.Size(76, 13);
       this.label4.TabIndex = 7;
       this.label4.Text = "Gradiant Style:";
       // 
@@ -410,7 +410,7 @@
       this.label3.AutoSize = true;
       this.label3.Location = new System.Drawing.Point(366, 11);
       this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(39, 13);
+      this.label3.Size = new System.Drawing.Size(38, 13);
       this.label3.TabIndex = 6;
       this.label3.Text = "Width:";
       // 
@@ -419,7 +419,7 @@
       this.label2.AutoSize = true;
       this.label2.Location = new System.Drawing.Point(186, 11);
       this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(68, 13);
+      this.label2.Size = new System.Drawing.Size(67, 13);
       this.label2.TabIndex = 5;
       this.label2.Text = "Shape Style:";
       // 
@@ -428,7 +428,7 @@
       this.label1.AutoSize = true;
       this.label1.Location = new System.Drawing.Point(3, 11);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(50, 13);
+      this.label1.Size = new System.Drawing.Size(48, 13);
       this.label1.TabIndex = 4;
       this.label1.Text = "Fill Style:";
       // 

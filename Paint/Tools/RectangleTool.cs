@@ -8,7 +8,6 @@ namespace Paint
 {
     public class RectangleTool : Tool
     {
-        // moved from RectangleToolBase
         protected bool drawing;
         protected Point sPoint;
 
@@ -30,7 +29,7 @@ namespace Paint
             args.pictureBox.MouseUp += new MouseEventHandler(OnMouseUp);
         }
 
-        protected void OnMouseUp(object sender, MouseEventArgs e)
+        public override void OnMouseUp(object sender, MouseEventArgs e)
         {
             if (drawing)
             {
@@ -50,7 +49,7 @@ namespace Paint
             }
         }
 
-        protected void OnMouseMove(object sender, MouseEventArgs e)
+        public override void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (drawing)
             {
@@ -72,7 +71,7 @@ namespace Paint
             }
         }
 
-        protected void OnMouseDown(object sender, MouseEventArgs e)
+        public override void OnMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -114,14 +113,7 @@ namespace Paint
         {
             if (fillBrush is LinearGradientBrush)
             {
-                if ((rect.Width > 0) && (rect.Height > 0))
-                {
-                    fillBrush = new LinearGradientBrush(rect,
-                          args.settings.PrimaryColor,
-                          args.settings.SecondaryColor,
-                          args.settings.GradiantStyle);
-                    //outlinePen = new Pen(fillBrush, args.settings.Width);
-                }
+                fillBrush = SetBrushToGradient(fillBrush);
             }
 
             switch (args.settings.DrawMode)
@@ -146,7 +138,20 @@ namespace Paint
             }
         }
 
-        // moved from RectangleToolBase
+        private Brush SetBrushToGradient(Brush fillBrush)
+        {
+            if ((rect.Width > 0) && (rect.Height > 0))
+            {
+                fillBrush = new LinearGradientBrush(rect,
+                      args.settings.PrimaryColor,
+                      args.settings.SecondaryColor,
+                      args.settings.GradiantStyle);
+                //outlinePen = new Pen(fillBrush, args.settings.Width);
+            }
+
+            return fillBrush;
+        }
+        
         public override void UnloadTool()
         {
             args.pictureBox.Cursor = Cursors.Arrow;

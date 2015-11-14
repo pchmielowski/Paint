@@ -96,7 +96,12 @@ namespace Paint
             return brush;
         }
 
-        public abstract void UnloadTool();
+
+    public abstract void OnMouseUp(object sender, MouseEventArgs e);
+    public abstract void OnMouseMove(object sender, MouseEventArgs e);
+    public abstract void OnMouseDown(object sender, MouseEventArgs e);
+
+    public abstract void UnloadTool();
 
     }
 }

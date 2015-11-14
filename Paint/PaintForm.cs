@@ -18,7 +18,8 @@ namespace Paint
     private ToolArgs toolArgs;
     private Tool curTool;
     private IPaintSettings settings;
-    private ImageList toolBarImageList;
+
+    private MouseManager mouseManager;
 
     public PaintForm() {
       InitializeComponent();
@@ -37,6 +38,7 @@ namespace Paint
       }
       if (curButton == lineBtn) {
         curTool = new LineTool(toolArgs);
+        mouseManager = new MouseManager(curTool, toolArgs);
       } else if (curButton == rectangleBtn) {
         curTool = new RectangleTool(toolArgs);
       } else if (curButton == pencilBtn) {
@@ -222,19 +224,19 @@ namespace Paint
 
     private void editCutMnu_Click(object sender, EventArgs e) {
       curTool.UnloadTool();
-      curTool = new ClipboardTool(toolArgs, ClipboardAction.Cut);
+      //curTool = new ClipboardTool(toolArgs, ClipboardAction.Cut);
       SetToolBarButtonsState(arrowBtn);
     }
 
     private void editCopyMnu_Click(object sender, EventArgs e) {
       curTool.UnloadTool();
-      curTool = new ClipboardTool(toolArgs, ClipboardAction.Copy);
+      //curTool = new ClipboardTool(toolArgs, ClipboardAction.Copy);
       SetToolBarButtonsState(arrowBtn);
     }
 
     private void editPasteMnu_Click(object sender, EventArgs e) {
       curTool.UnloadTool();
-      curTool = new ClipboardTool(toolArgs, ClipboardAction.Paste);
+      //curTool = new ClipboardTool(toolArgs, ClipboardAction.Paste);
       SetToolBarButtonsState(arrowBtn);
     }
 

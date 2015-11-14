@@ -22,12 +22,12 @@ namespace Paint
             args.pictureBox.MouseUp += new MouseEventHandler(OnMouseUp);
         }
 
-        private void OnMouseUp(object sender, MouseEventArgs e)
+        public override void OnMouseUp(object sender, MouseEventArgs e)
         {
             drawing = false;
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e)
+        public override void OnMouseMove(object sender, MouseEventArgs e)
         {
             Point curPoint = e.Location;
             if (drawing)
@@ -39,7 +39,7 @@ namespace Paint
             ShowPointInStatusBar(curPoint);
         }
 
-        private void OnMouseDown(object sender, MouseEventArgs e)
+        public override void OnMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
