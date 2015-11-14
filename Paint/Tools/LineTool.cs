@@ -9,7 +9,7 @@ namespace Paint
   public class LineTool : Tool
   {
     private bool drawing;
-    private Point sPoint;
+    private Point beginingPosition;
     private TextureBrush delBrush;
     private Pen pen;
     private Rectangle delRect;
@@ -40,24 +40,24 @@ namespace Paint
     {
       if (drawing)
       {
-        // delete old line !!
-        int w = args.settings.Width;
-        delRect.Inflate(w, w);
-        g.FillRectangle(delBrush, delRect);
+        ClearOldLine();
 
-        //draw the new line
-        g.DrawLine(pen, sPoint, e.Location);
+        g.DrawLine(pen, beginingPosition, e.Location);
         args.pictureBox.Invalidate();
-
-        delRect = GetRectangleFromPoints(sPoint, e.Location);
       }
+    }
+
+    private void ClearOldLine()
+    {
+      Point rightDown = new Point(500, 500);
+      delRect = GetRectangleFromPoints(new Point(0, 0), rightDown);
+      g.FillRectangle(delBrush, delRect);
     }
 
     public override void StartDrawing(MouseEventArgs e)
     {
-
       drawing = true;
-      sPoint = e.Location;
+      beginingPosition = e.Location;
 
       g = Graphics.FromImage(args.bitmap);
 

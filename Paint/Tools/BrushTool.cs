@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Paint
@@ -7,9 +8,8 @@ namespace Paint
   {
     protected bool isDrawingState_;
     protected BrushToolType toolType;
-    protected Graphics bmpGraphics;
     protected Point previousPosition;
-    protected Pen pen;
+    protected Pen penCfg_;
 
     public BrushTool(ToolArgs args, BrushToolType type)
       : base(args)
@@ -18,6 +18,7 @@ namespace Paint
       isDrawingState_ = false;
 
       args.pictureBox.Cursor = Cursors.Cross;
+
     }
 
     public override void StopDrawing(MouseEventArgs e)
@@ -25,8 +26,7 @@ namespace Paint
       isDrawingState_ = false;
       args.pictureBox.Invalidate();
 
-      pen.Dispose();
-      bmpGraphics.Dispose();
+      penCfg_.Dispose();
       g.Dispose();
     }
 
@@ -35,8 +35,8 @@ namespace Paint
       Point currentPosition = e.Location;
       if (isDrawingState_)
       {
-        g.DrawLine(pen, previousPosition, currentPosition);
-        bmpGraphics.DrawLine(pen, previousPosition, currentPosition);
+        g.DrawLine(penCfg_, previousPosition, currentPosition);
+        args.pictureBox.Invalidate();
         previousPosition = currentPosition;
       }
     }
@@ -47,17 +47,29 @@ namespace Paint
       isDrawingState_ = true;
       previousPosition = e.Location;
 
+      penCfg_ = preparePen();
+
+      g = Graphics.FromImage(args.bitmap);
+    }
+
+    private Pen preparePen()
+    {
+      Pen pen;
+      LineCap lineCap = LineCap.Round;
       if (toolType == BrushToolType.FreeBrush)
-        pen = new Pen(GetBrush(false), GetWidth());
-      else
-        pen = new Pen(args.settings.SecondaryColor, GetWidth());
+      {
+        pen = new Pen(GetBrush(false));
+      }
+      else // if (toolType == BrushToolType.Eraser)
+      {
+        pen = new Pen(args.settings.SecondaryColor);
+        lineCap = LineCap.Square;
+      }
+      pen.StartCap = lineCap;
+      pen.EndCap = lineCap;
 
-      pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
-      pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-
-      g = args.pictureBox.CreateGraphics();
-      bmpGraphics = Graphics.FromImage(args.bitmap);
-
+      pen.Width = GetWidth();
+      return pen;
     }
 
     protected virtual int GetWidth()

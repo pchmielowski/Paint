@@ -5,8 +5,6 @@ namespace Paint
 {
   public class PencilTool : BrushTool
   {
-
-
     public PencilTool(ToolArgs args)
         : base(args, BrushToolType.FreeBrush)
     {
