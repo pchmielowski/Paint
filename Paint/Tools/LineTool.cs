@@ -10,9 +10,9 @@ namespace Paint
   {
     private bool drawing;
     private Point beginingPosition;
-    private TextureBrush delBrush;
     private Pen pen;
-    private Rectangle delRect;
+
+    private TextureBrush delBrush;
 
     public LineTool(ToolArgs args)
       : base(args)
@@ -40,18 +40,11 @@ namespace Paint
     {
       if (drawing)
       {
-        ClearOldLine();
+        ClearOldShape(delBrush);
 
         g.DrawLine(pen, beginingPosition, e.Location);
         args.pictureBox.Invalidate();
       }
-    }
-
-    private void ClearOldLine()
-    {
-      Point rightDown = new Point(500, 500);
-      delRect = GetRectangleFromPoints(new Point(0, 0), rightDown);
-      g.FillRectangle(delBrush, delRect);
     }
 
     public override void StartDrawing(MouseEventArgs e)
@@ -64,9 +57,7 @@ namespace Paint
       pen = new Pen(GetBrush(false), args.settings.Width);
       pen.DashStyle = args.settings.LineStyle;
 
-      // delete brush
       delBrush = new TextureBrush(args.bitmap);
-
     }
 
     public override void UnloadTool()

@@ -103,5 +103,11 @@ namespace Paint
 
     public abstract void UnloadTool();
 
+    protected void ClearOldShape(Brush db)
+    {
+      Point rightDown = new Point(500, 500);
+      Rectangle delRect = GetRectangleFromPoints(new Point(0, 0), rightDown);
+      g.FillRectangle(db, delRect);
+    }
   }
 }

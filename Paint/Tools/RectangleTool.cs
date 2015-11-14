@@ -15,9 +15,9 @@ namespace Paint
     protected Brush fillBrush;
     protected Rectangle rect;
 
-    private Pen delPen;
+    //private Pen delPen;
     private TextureBrush delBrush;
-    private Rectangle prevRect;
+    //private Rectangle prevRect;
 
     public RectangleTool(ToolArgs args)
         : base(args)
@@ -50,15 +50,12 @@ namespace Paint
     {
       if (drawing)
       {
-        // delete old rectangle
-        DrawRectangle(delPen, delBrush);
-        // draw the rectangle
+        ClearOldShape(delBrush);
+
         rect = GetRectangleFromPoints(sPoint, e.Location);
 
         DrawRectangle(outlinePen, fillBrush);
         args.pictureBox.Invalidate();
-
-        prevRect = rect;
 
         ShowPointInStatusBar(sPoint, e.Location);
       }
@@ -70,7 +67,19 @@ namespace Paint
 
     public override void StartDrawing(MouseEventArgs e)
     {
+      PreparePen();
 
+      g = Graphics.FromImage(args.bitmap);
+      drawing = true;
+      sPoint = e.Location;
+
+      delBrush = new TextureBrush(args.bitmap);
+      //delPen = new Pen(delBrush, args.settings.Width + 1);
+
+    }
+
+    private void PreparePen()
+    {
       switch (args.settings.DrawMode)
       {
       case DrawMode.Outline:
@@ -94,15 +103,6 @@ namespace Paint
         outlinePen.DashStyle = args.settings.LineStyle;
         break;
       }
-
-      g = Graphics.FromImage(args.bitmap);
-      drawing = true;
-      sPoint = e.Location;
-
-      delBrush = new TextureBrush(args.bitmap);
-      delPen = new Pen(delBrush, args.settings.Width + 1);
-      //delPen.DashStyle = args.settings.LineStyle;
-
     }
 
     protected virtual void DrawRectangle(Pen outlinePen, Brush fillBrush)
@@ -142,7 +142,6 @@ namespace Paint
               args.settings.PrimaryColor,
               args.settings.SecondaryColor,
               args.settings.GradiantStyle);
-        //outlinePen = new Pen(fillBrush, args.settings.Width);
       }
 
       return fillBrush;

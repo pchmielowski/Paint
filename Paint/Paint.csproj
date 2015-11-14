@@ -84,6 +84,7 @@
     <Compile Include="TextDialog.Designer.cs">
       <DependentUpon>TextDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\ShapeDecorator.cs" />
     <Compile Include="Tools\TextTool.cs" />
     <Compile Include="ToolArgs.cs" />
     <Compile Include="PaintForm.cs">
