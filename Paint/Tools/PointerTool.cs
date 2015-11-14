@@ -9,7 +9,8 @@ namespace Paint
   public class PointerTool : Tool
   {
     public PointerTool(ToolArgs args)
-      : base(args) {
+      : base(args)
+    {
       args.pictureBox.Cursor = Cursors.Arrow;
     }
 
@@ -29,7 +30,8 @@ namespace Paint
       ShowPointInStatusBar(e.Location);
     }
 
-    public override void UnloadTool() {
+    public override void UnloadTool()
+    {
     }
   }
 }

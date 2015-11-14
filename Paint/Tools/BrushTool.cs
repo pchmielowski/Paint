@@ -14,7 +14,8 @@ namespace Paint
     private Pen pen;
 
     public BrushTool(ToolArgs args, BrushToolType type)
-      : base(args) {
+      : base(args)
+    {
       toolType = type;
       drawing = false;
 
@@ -34,7 +35,8 @@ namespace Paint
     public override void UpdateMousePosition(MouseEventArgs e)
     {
       Point curPoint = e.Location;
-      if (drawing) {
+      if (drawing)
+      {
         g.DrawLine(pen, prevPoint, curPoint);
         bmpGraphics.DrawLine(pen, prevPoint, curPoint);
         prevPoint = curPoint;
@@ -46,23 +48,24 @@ namespace Paint
     public override void StartDrawing(MouseEventArgs e)
     {
 
-        drawing = true;
-        prevPoint = e.Location;
+      drawing = true;
+      prevPoint = e.Location;
 
-        if (toolType == BrushToolType.FreeBrush)
-          pen = new Pen(GetBrush(false), args.settings.Width);
-        else
-          pen = new Pen(args.settings.SecondaryColor, args.settings.Width);
+      if (toolType == BrushToolType.FreeBrush)
+        pen = new Pen(GetBrush(false), args.settings.Width);
+      else
+        pen = new Pen(args.settings.SecondaryColor, args.settings.Width);
 
-        pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
-        pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+      pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+      pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
 
-        g = args.pictureBox.CreateGraphics();
-        bmpGraphics = Graphics.FromImage(args.bitmap);
+      g = args.pictureBox.CreateGraphics();
+      bmpGraphics = Graphics.FromImage(args.bitmap);
 
     }
 
-    public override void UnloadTool() {
+    public override void UnloadTool()
+    {
       args.pictureBox.Cursor = Cursors.Default;
     }
   }

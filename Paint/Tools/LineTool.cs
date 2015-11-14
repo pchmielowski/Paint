@@ -56,22 +56,22 @@ namespace Paint
     public override void StartDrawing(MouseEventArgs e)
     {
 
-        drawing = true;
-        sPoint = e.Location;
+      drawing = true;
+      sPoint = e.Location;
 
-        g = Graphics.FromImage(args.bitmap);
+      g = Graphics.FromImage(args.bitmap);
 
-        pen = new Pen(GetBrush(false), args.settings.Width);
-        pen.DashStyle = args.settings.LineStyle;
+      pen = new Pen(GetBrush(false), args.settings.Width);
+      pen.DashStyle = args.settings.LineStyle;
 
-        // delete brush
-        delBrush = new TextureBrush(args.bitmap);
-      
+      // delete brush
+      delBrush = new TextureBrush(args.bitmap);
+
     }
 
     public override void UnloadTool()
     {
       args.pictureBox.Cursor = Cursors.Default;
-      }
+    }
   }
 }
