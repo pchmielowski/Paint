@@ -6,8 +6,12 @@ using System.Windows.Forms;
 
 namespace Paint
 {
-    public class RectangleTool : RectangleToolBase
+    public class RectangleTool : Tool
     {
+        // moved from RectangleToolBase
+        protected bool drawing;
+        protected Point sPoint;
+
         protected Pen outlinePen;
         protected Brush fillBrush;
         protected Rectangle rect;
@@ -19,9 +23,14 @@ namespace Paint
         public RectangleTool(ToolArgs args)
             : base(args)
         {
+            drawing = false;
+            args.pictureBox.Cursor = Cursors.Cross;
+            args.pictureBox.MouseDown += new MouseEventHandler(OnMouseDown);
+            args.pictureBox.MouseMove += new MouseEventHandler(OnMouseMove);
+            args.pictureBox.MouseUp += new MouseEventHandler(OnMouseUp);
         }
 
-        protected override void OnMouseUp(object sender, MouseEventArgs e)
+        protected void OnMouseUp(object sender, MouseEventArgs e)
         {
             if (drawing)
             {
@@ -41,7 +50,7 @@ namespace Paint
             }
         }
 
-        protected override void OnMouseMove(object sender, MouseEventArgs e)
+        protected void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (drawing)
             {
@@ -63,7 +72,7 @@ namespace Paint
             }
         }
 
-        protected override void OnMouseDown(object sender, MouseEventArgs e)
+        protected void OnMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -135,6 +144,15 @@ namespace Paint
                     g.DrawRectangle(outlinePen, rect);
                     break;
             }
+        }
+
+        // moved from RectangleToolBase
+        public override void UnloadTool()
+        {
+            args.pictureBox.Cursor = Cursors.Arrow;
+            args.pictureBox.MouseDown -= new MouseEventHandler(OnMouseDown);
+            args.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
+            args.pictureBox.MouseUp -= new MouseEventHandler(OnMouseUp);
         }
     }
 }
