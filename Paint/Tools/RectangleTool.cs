@@ -6,6 +6,7 @@ namespace Paint
 {
   public class RectangleTool : Tool
   {
+    private RectangleDrawer rectangleDrawer_;
     public RectangleTool(ToolArgs args)
         : base(args)
     {
@@ -21,14 +22,15 @@ namespace Paint
       PreparePen();
 
       g = Graphics.FromImage(args.bitmap);
+      rectangleDrawer_ = new RectangleDrawer(g, args.settings, outlinePen_, fillBrush_);
       inDrawingState_ = true;
       startLocation_ = e.Location;
 
       brushSavedState_ = new TextureBrush(args.bitmap);
     }
 
-    protected Pen outlinePen_;
-    protected Brush fillBrush_;
+    protected Pen outlinePen_; //
+    protected Brush fillBrush_; //
     private void PreparePen()
     {
       switch (args.settings.DrawMode)
@@ -66,49 +68,9 @@ namespace Paint
       ClearOldShape(brushSavedState_);
 
       Rectangle rect = GetRectangleFromPoints(startLocation_, e.Location);
-      DrawRectangle(rect, outlinePen_, fillBrush_);
+      rectangleDrawer_.DrawRectangle(rect, args.settings.DrawMode);
 
       args.pictureBox.Invalidate();
-    }
-
-    protected virtual void DrawRectangle(Rectangle rect, Pen outlinePen, Brush fillBrush)
-    {
-      if (fillBrush is LinearGradientBrush)
-      {
-        fillBrush = UpdateGradientBrush(rect, fillBrush);
-      }
-
-      switch (args.settings.DrawMode)
-      {
-      case DrawMode.Outline:
-        g.DrawRectangle(outlinePen, rect);
-        break;
-
-      case DrawMode.Filled:
-        g.FillRectangle(fillBrush, rect);
-        break;
-
-      case DrawMode.Mixed:
-        g.FillRectangle(fillBrush, rect);
-        g.DrawRectangle(outlinePen, rect);
-        break;
-
-      case DrawMode.MixedWithSolidOutline:
-        g.FillRectangle(fillBrush, rect);
-        g.DrawRectangle(outlinePen, rect);
-        break;
-      }
-    }
-    private Brush UpdateGradientBrush(Rectangle rect, Brush fillBrush)
-    {
-      if ((rect.Width == 0) || (rect.Height == 0))
-        return fillBrush;
-
-      fillBrush = new LinearGradientBrush(rect,
-            args.settings.PrimaryColor,
-            args.settings.SecondaryColor,
-            args.settings.GradiantStyle);
-      return fillBrush;
     }
 
     public override void StopDrawing(MouseEventArgs e)
