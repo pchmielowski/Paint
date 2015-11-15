@@ -57,7 +57,6 @@ namespace Paint
 
     protected Brush GetBrush(bool inverseColors)
     {
-      Brush brush = null;
       Color c1, c2;
 
       if (inverseColors)
@@ -71,6 +70,7 @@ namespace Paint
         c2 = args.settings.SecondaryColor;
       }
 
+      Brush brush = null;
       switch (args.settings.BrushType)
       {
       case BrushType.SolidBrush:
