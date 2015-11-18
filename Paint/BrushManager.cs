@@ -3,20 +3,15 @@ using System.Drawing.Drawing2D;
 
 namespace Paint
 {
-  public class BrushManager // TODO: move to another file
+  public class BrushManager
   {
     public Pen outlinePen_ { get; set; }
     public Brush fillBrush_ { get; set; }
     private ToolArgs args;
 
-    public BrushManager(ToolArgs args)
+    public BrushManager(ToolArgs args) // TODO Brush -> Style
     {
       this.args = args;
-      PreparePenAndBrush();
-    }
-
-    private void PreparePenAndBrush()
-    {
       switch (args.settings.DrawMode)
       {
       case DrawMode.Outline:
@@ -28,7 +23,7 @@ namespace Paint
 
       case DrawMode.Filled:
         fillBrush_ = GetBrush(false);
-        Pen TRANSPARENT_PEN = new Pen(Color.FromArgb(0, 0, 0, 255)); ;
+        Pen TRANSPARENT_PEN = new Pen(Color.FromArgb(0, 0, 0, 255));
         outlinePen_ = TRANSPARENT_PEN;
         break;
 
@@ -100,7 +95,7 @@ namespace Paint
       float scaleW = rect.Width / oldRect.Width;
 
       // TODO: here is a bug
-      ((LinearGradientBrush)fillBrush_).ScaleTransform(.99f, .99f);
+      ((LinearGradientBrush)fillBrush_).ScaleTransform(scaleW, scaleH);
     }
   }
 }

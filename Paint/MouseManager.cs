@@ -44,8 +44,54 @@ namespace Paint
     {
       if (e.Button == MouseButtons.Left)
       {
-        tool_.StartDrawing(e, new BrushManager(toolArgs_));
+        BrushManager brushManager = BrushManagerFactory();
+        tool_.StartDrawing(e, brushManager);
       }
+    }
+
+    private BrushManager BrushManagerFactory(/*toolArgs_.settings.BrushType, 
+                    toolArgs_.settings.DrawMode*/) // TODO: make class
+    {
+      BrushManager brushManager;
+      switch (toolArgs_.settings.BrushType)
+      {
+      case BrushType.SolidBrush:
+        //brushManager = newSolidBrushManager();
+        break;
+
+      case BrushType.TextureBrush:
+        //brushManager = newTextureBrushManager();
+        break;
+
+      case BrushType.GradiantBrush:
+        //brushManager = newGradiantBrushManager();
+        break;
+
+      case BrushType.HatchBrush:
+        //brushManager = newHatchBrushManager();
+        break;
+      }
+
+      switch (toolArgs_.settings.DrawMode)
+      {
+      case DrawMode.Outline:
+        //TODO: return new OutlineBrushManagerDecorator(brushManager);
+        break;
+
+      case DrawMode.Filled:
+        //TODO: return new FilledBrushManagerDecorator(brushManager);
+        break;
+
+      case DrawMode.Mixed:
+        //TODO: return new OutlineBrushManagerDecorator(
+        //                          new FilledBrushManagerDecorator(
+        //                              brushManager));
+        break;
+
+      case DrawMode.MixedWithSolidOutline: // TODO: wyebac ta opcje
+        break;
+      }
+      return new BrushManager(toolArgs_);
     }
 
     //protected void ShowPointInStatusBar(Point pt)
