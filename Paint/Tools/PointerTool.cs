@@ -16,18 +16,12 @@ namespace Paint
 
     public override void UpdateMousePosition(MouseEventArgs e)
     {
-      // show cursor location in status bar
-      ShowPointInStatusBar(e.Location);
     }
-    public override void StartDrawing(MouseEventArgs e)
+    public override void StartDrawing(MouseEventArgs e, BrushManager brushManager)
     {
-      // show cursor location in status bar
-      ShowPointInStatusBar(e.Location);
     }
     public override void StopDrawing(MouseEventArgs e)
     {
-      // show cursor location in status bar
-      ShowPointInStatusBar(e.Location);
     }
 
     public override void UnloadTool()

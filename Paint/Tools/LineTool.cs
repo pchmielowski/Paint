@@ -47,7 +47,7 @@ namespace Paint
       }
     }
 
-    public override void StartDrawing(MouseEventArgs e)
+    public override void StartDrawing(MouseEventArgs e, BrushManager brushManager)
     {
       drawing = true;
       beginingPosition = e.Location;

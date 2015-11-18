@@ -41,7 +41,7 @@ namespace Paint
       }
     }
 
-    public override void StartDrawing(MouseEventArgs e)
+    public override void StartDrawing(MouseEventArgs e, BrushManager brushManager)
     {
 
       isDrawingState_ = true;

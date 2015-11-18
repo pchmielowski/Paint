@@ -70,11 +70,10 @@ namespace Paint
 
     public override void UpdateMousePosition(MouseEventArgs e)
     {
-      ShowPointInStatusBar(e.Location);
     }
 
     public override void StopDrawing(MouseEventArgs e) { }
-    public override void StartDrawing(MouseEventArgs e) { }
+    public override void StartDrawing(MouseEventArgs e, BrushManager brushManager) { }
 
     private void OnMouseClick(object sender, MouseEventArgs e)
     {

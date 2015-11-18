@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Paint
 {
@@ -35,14 +36,18 @@ namespace Paint
 
     private void OnMouseMove(object sender, MouseEventArgs e)
     {
-      // TODO: updatowanie statusbaru
       tool_.UpdateMousePosition(e);
+      // TODO: updatowanie statusbaru
     }
 
     private void OnMouseDown(object sender, MouseEventArgs e)
     {
-
-      tool_.StartDrawing(e);
+      if (e.Button == MouseButtons.Left)
+      {
+        Brush brush = new SolidBrush(Color.FromArgb(255, 255, 0, 0));
+        Pen pen = new Pen(Color.FromArgb(255, 0, 0, 255));
+        tool_.StartDrawing(e, new BrushManager(pen, brush));
+      }
     }
   }
 }

@@ -6,7 +6,6 @@ namespace Paint
 {
   public class RectangleTool : Tool
   {
-    private RectangleDrawer rectangleDrawer_;
     public RectangleTool(ToolArgs args)
         : base(args)
     {
@@ -17,46 +16,19 @@ namespace Paint
     protected bool inDrawingState_;
     protected Point startLocation_;
     private TextureBrush brushSavedState_;
-    public override void StartDrawing(MouseEventArgs e)
+    private BrushManager brushManager_;
+    public override void StartDrawing(MouseEventArgs e, BrushManager brushManager)
     {
-      PreparePen();
-
       g = Graphics.FromImage(args.bitmap);
-      rectangleDrawer_ = new RectangleDrawer(g, args.settings, outlinePen_, fillBrush_);
+
+      brushManager_ = brushManager;
+
       inDrawingState_ = true;
       startLocation_ = e.Location;
 
       brushSavedState_ = new TextureBrush(args.bitmap);
     }
 
-    protected Pen outlinePen_; //
-    protected Brush fillBrush_; //
-    private void PreparePen()
-    {
-      switch (args.settings.DrawMode)
-      {
-      case DrawMode.Outline:
-        outlinePen_ = new Pen(GetBrush(false), args.settings.Width);
-        outlinePen_.DashStyle = args.settings.LineStyle;
-        break;
-
-      case DrawMode.Filled:
-        fillBrush_ = GetBrush(false);
-        break;
-
-      case DrawMode.Mixed:
-        fillBrush_ = GetBrush(false);
-        outlinePen_ = new Pen(GetBrush(true), args.settings.Width);
-        outlinePen_.DashStyle = args.settings.LineStyle;
-        break;
-
-      case DrawMode.MixedWithSolidOutline:
-        fillBrush_ = GetBrush(false);
-        outlinePen_ = new Pen(args.settings.SecondaryColor, args.settings.Width);
-        outlinePen_.DashStyle = args.settings.LineStyle;
-        break;
-      }
-    }
 
     public override void UpdateMousePosition(MouseEventArgs e)
     {
@@ -68,21 +40,43 @@ namespace Paint
       ClearOldShape(brushSavedState_);
 
       Rectangle rect = GetRectangleFromPoints(startLocation_, e.Location);
-      rectangleDrawer_.DrawRectangle(rect, args.settings.DrawMode);
-
+      DrawRectangle(rect, args.settings.DrawMode);
       args.pictureBox.Invalidate();
     }
+    public void DrawRectangle(Rectangle rect,
+      DrawMode drawMode)
+    {
+      if (brushManager_.fillBrush_ is LinearGradientBrush)
+      {
+        brushManager_.fillBrush_ = UpdateGradientBrush(rect, brushManager_.fillBrush_);
+      }
 
+      g.FillRectangle(brushManager_.fillBrush_, rect);
+      g.DrawRectangle(brushManager_.outlinePen_, rect);
+    }
+
+    private Brush UpdateGradientBrush(Rectangle rect, Brush fillBrush)
+    {
+      if ((rect.Width == 0) || (rect.Height == 0))
+        return fillBrush;
+
+      fillBrush = new LinearGradientBrush(rect,
+            args.settings.PrimaryColor,
+            args.settings.SecondaryColor,
+            args.settings.GradiantStyle);
+
+      return fillBrush;
+    }
     public override void StopDrawing(MouseEventArgs e)
     {
       if (inDrawingState_)
       {
         args.pictureBox.Invalidate();
         inDrawingState_ = false;
-        if (fillBrush_ != null)
-          fillBrush_.Dispose();
-        if (outlinePen_ != null)
-          outlinePen_.Dispose();
+        if (brushManager_.fillBrush_ != null)
+          brushManager_.fillBrush_.Dispose();
+        if (brushManager_.outlinePen_ != null)
+          brushManager_.outlinePen_.Dispose();
         brushSavedState_.Dispose();
         g.Dispose();
       }

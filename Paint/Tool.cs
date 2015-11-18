@@ -17,17 +17,17 @@ namespace Paint
       this.args = args;
     }
 
-    protected void ShowPointInStatusBar(Point pt)
-    {
-      args.panel1.Text = pt.ToString();
-      args.panel2.Text = "";
-    }
+    //protected void ShowPointInStatusBar(Point pt)
+    //{
+    //  args.panel1.Text = pt.ToString();
+    //  args.panel2.Text = "";
+    //}
 
-    protected void ShowPointInStatusBar(Point pt1, Point pt2)
-    {
-      args.panel1.Text = pt1.ToString();
-      args.panel2.Text = pt2.ToString();
-    }
+    //protected void ShowPointInStatusBar(Point pt1, Point pt2)
+    //{
+    //  args.panel1.Text = pt1.ToString();
+    //  args.panel2.Text = pt2.ToString();
+    //}
 
     protected Rectangle GetRectangleFromPoints(Point p1, Point p2)
     {
@@ -96,10 +96,9 @@ namespace Paint
       return brush;
     }
 
-
     public abstract void StopDrawing(MouseEventArgs e);
     public abstract void UpdateMousePosition(MouseEventArgs e);
-    public abstract void StartDrawing(MouseEventArgs e);
+    public abstract void StartDrawing(MouseEventArgs e, BrushManager brushManager);
 
     public abstract void UnloadTool();
 
