@@ -32,38 +32,15 @@ namespace Paint
     public override void UpdateMousePosition(MouseEventArgs e)
     {
       if (!inDrawingState_)
-      {
         return;
-      }
 
       ClearOldShape(brushSavedState_);
+      Rectangle rectangle = GetRectangleFromPoints(startLocation_, e.Location);
+      brushManager_.Update(rectangle);
 
-      Rectangle rect = GetRectangleFromPoints(startLocation_, e.Location);
-      DrawRectangle(rect, args.settings.DrawMode);
+      g.FillRectangle(brushManager_.fillBrush_, rectangle);
+      g.DrawRectangle(brushManager_.outlinePen_, rectangle);
       args.pictureBox.Invalidate();
-    }
-    private void DrawRectangle(Rectangle rect,
-      DrawMode drawMode)
-    {
-      if (brushManager_.fillBrush_ is LinearGradientBrush)
-      {
-        brushManager_.fillBrush_ = UpdateGradientBrush(rect, brushManager_.fillBrush_);
-      }
-
-      g.FillRectangle(brushManager_.fillBrush_, rect);
-      g.DrawRectangle(brushManager_.outlinePen_, rect);
-    }
-    private Brush UpdateGradientBrush(Rectangle rect, Brush fillBrush)
-    {
-      if ((rect.Width == 0) || (rect.Height == 0))
-        return fillBrush;
-
-      fillBrush = new LinearGradientBrush(rect,
-            args.settings.PrimaryColor,
-            args.settings.SecondaryColor,
-            args.settings.GradiantStyle);
-
-      return fillBrush;
     }
 
     public override void StopDrawing(MouseEventArgs e)

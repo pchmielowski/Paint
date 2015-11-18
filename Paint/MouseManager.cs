@@ -47,5 +47,17 @@ namespace Paint
         tool_.StartDrawing(e, new BrushManager(toolArgs_));
       }
     }
+
+    //protected void ShowPointInStatusBar(Point pt)
+    //{
+    //  args.panel1.Text = pt.ToString();
+    //  args.panel2.Text = "";
+    //}
+
+    //protected void ShowPointInStatusBar(Point pt1, Point pt2)
+    //{
+    //  args.panel1.Text = pt1.ToString();
+    //  args.panel2.Text = pt2.ToString();
+    //}
   }
 }

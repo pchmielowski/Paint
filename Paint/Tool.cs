@@ -1,7 +1,4 @@
-﻿
-
-using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -16,18 +13,6 @@ namespace Paint
     {
       this.args = args;
     }
-
-    //protected void ShowPointInStatusBar(Point pt)
-    //{
-    //  args.panel1.Text = pt.ToString();
-    //  args.panel2.Text = "";
-    //}
-
-    //protected void ShowPointInStatusBar(Point pt1, Point pt2)
-    //{
-    //  args.panel1.Text = pt1.ToString();
-    //  args.panel2.Text = pt2.ToString();
-    //}
 
     protected Rectangle GetRectangleFromPoints(Point p1, Point p2)
     {

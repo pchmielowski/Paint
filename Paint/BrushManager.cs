@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 
 namespace Paint
 {
@@ -88,6 +85,22 @@ namespace Paint
       }
 
       return brush;
+    }
+
+    public void Update(Rectangle rect)
+    {
+      if (!(fillBrush_ is LinearGradientBrush))
+        return;
+
+      if ((rect.Width == 0) || (rect.Height == 0))
+        return;
+
+      RectangleF oldRect = ((LinearGradientBrush)fillBrush_).Rectangle;
+      float scaleH = rect.Height / oldRect.Height;
+      float scaleW = rect.Width / oldRect.Width;
+
+      // TODO: here is a bug
+      ((LinearGradientBrush)fillBrush_).ScaleTransform(.99f, .99f);
     }
   }
 }
