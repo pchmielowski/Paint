@@ -55,7 +55,11 @@ namespace Paint
       return rect;
     }
 
-    protected Brush GetBrush(bool inverseColors)
+    public abstract void StopDrawing(MouseEventArgs e);
+    public abstract void UpdateMousePosition(MouseEventArgs e);
+    public abstract void StartDrawing(MouseEventArgs e, BrushManager brushManager);
+
+    protected Brush GetBrush(bool inverseColors) // TODO delete
     {
       Color c1, c2;
 
@@ -95,10 +99,6 @@ namespace Paint
 
       return brush;
     }
-
-    public abstract void StopDrawing(MouseEventArgs e);
-    public abstract void UpdateMousePosition(MouseEventArgs e);
-    public abstract void StartDrawing(MouseEventArgs e, BrushManager brushManager);
 
     public abstract void UnloadTool();
 

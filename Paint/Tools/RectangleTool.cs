@@ -29,7 +29,6 @@ namespace Paint
       brushSavedState_ = new TextureBrush(args.bitmap);
     }
 
-
     public override void UpdateMousePosition(MouseEventArgs e)
     {
       if (!inDrawingState_)
@@ -43,7 +42,7 @@ namespace Paint
       DrawRectangle(rect, args.settings.DrawMode);
       args.pictureBox.Invalidate();
     }
-    public void DrawRectangle(Rectangle rect,
+    private void DrawRectangle(Rectangle rect,
       DrawMode drawMode)
     {
       if (brushManager_.fillBrush_ is LinearGradientBrush)
@@ -54,7 +53,6 @@ namespace Paint
       g.FillRectangle(brushManager_.fillBrush_, rect);
       g.DrawRectangle(brushManager_.outlinePen_, rect);
     }
-
     private Brush UpdateGradientBrush(Rectangle rect, Brush fillBrush)
     {
       if ((rect.Width == 0) || (rect.Height == 0))
@@ -67,6 +65,7 @@ namespace Paint
 
       return fillBrush;
     }
+
     public override void StopDrawing(MouseEventArgs e)
     {
       if (inDrawingState_)

@@ -44,9 +44,7 @@ namespace Paint
     {
       if (e.Button == MouseButtons.Left)
       {
-        Brush brush = new SolidBrush(Color.FromArgb(255, 255, 0, 0));
-        Pen pen = new Pen(Color.FromArgb(255, 0, 0, 255));
-        tool_.StartDrawing(e, new BrushManager(pen, brush));
+        tool_.StartDrawing(e, new BrushManager(toolArgs_));
       }
     }
   }
