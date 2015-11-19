@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
-
 namespace Paint
 {
   public interface IStyle
@@ -12,16 +11,39 @@ namespace Paint
 
   public abstract class StyleDecorator : IStyle
   {
-    public Pen outlinePen_ { get; set; }
-    public Brush fillBrush_ { get; set; }
+    public Pen outlinePen_
+    {
+      get { return styleToDecorate.outlinePen_; }
+      set { styleToDecorate.outlinePen_ = value; }
+    }
+    public Brush fillBrush_
+    {
+      get { return styleToDecorate.fillBrush_; }
+      set { styleToDecorate.fillBrush_ = value; }
+    }
     protected IStyle styleToDecorate;
     public abstract void Update(Rectangle rect);
   }
 
   public class OutlineStyleDecorator : StyleDecorator
   {
-    public OutlineStyleDecorator(IStyle std) { styleToDecorate = std; }
+    public OutlineStyleDecorator(IStyle std) { styleToDecorate = std; UpdateOutlinePen(); }
     public override void Update(Rectangle rect) { }
+    private void UpdateOutlinePen()
+    {
+      styleToDecorate.outlinePen_ = new Pen(Color.DarkMagenta, 4);
+      styleToDecorate.outlinePen_.DashStyle = DashStyle.Solid;
+    }
+  }
+
+  public class FilledStyleDecorator : StyleDecorator
+  {
+    public FilledStyleDecorator(IStyle std) { styleToDecorate = std; UpdateBrush(); }
+    public override void Update(Rectangle rect) { }
+    private void UpdateBrush()
+    {
+      styleToDecorate.fillBrush_ = new HatchBrush(HatchStyle.DashedUpwardDiagonal, Color.CornflowerBlue);
+    }
   }
 
   public class Style : IStyle
@@ -34,29 +56,17 @@ namespace Paint
     public Style(ToolArgs args)
     {
       this.args = args;
-      switch (args.settings.DrawMode)
-      {
-      case DrawMode.Outline:
-        outlinePen_ = new Pen(GetBrush(), args.settings.Width);
-        outlinePen_.DashStyle = args.settings.LineStyle;
-        break;
+    }
 
-      case DrawMode.Filled:
-        fillBrush_ = GetBrush();
-        break;
+    private void UpdateBrush()
+    {
+      fillBrush_ = GetBrush();
+    }
 
-      case DrawMode.Mixed:
-        fillBrush_ = GetBrush();
-        outlinePen_ = new Pen(GetBrush(), args.settings.Width);
-        outlinePen_.DashStyle = args.settings.LineStyle;
-        break;
-
-      case DrawMode.MixedWithSolidOutline:
-        fillBrush_ = GetBrush();
-        outlinePen_ = new Pen(args.settings.SecondaryColor, args.settings.Width);
-        outlinePen_.DashStyle = args.settings.LineStyle;
-        break;
-      }
+    private void UpdateOutlinePen(ToolArgs args)
+    {
+      outlinePen_ = new Pen(GetBrush(), args.settings.Width);
+      outlinePen_.DashStyle = args.settings.LineStyle;
     }
 
     private Brush GetBrush()

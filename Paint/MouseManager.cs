@@ -53,6 +53,7 @@ namespace Paint
                     toolArgs_.settings.DrawMode*/) // TODO: make class
     {
       IStyle style;
+      style = new Style(toolArgs_);
       switch (toolArgs_.settings.BrushType)
       {
       case BrushType.SolidBrush:
@@ -75,25 +76,21 @@ namespace Paint
       switch (toolArgs_.settings.DrawMode)
       {
       case DrawMode.Outline:
-        style = new Style(toolArgs_);
         return new OutlineStyleDecorator(style);
-        //TODO: return new OutlineBrushManagerDecorator(brushManager);
         break;
 
       case DrawMode.Filled:
-        //TODO: return new FilledBrushManagerDecorator(brushManager);
+        return new FilledStyleDecorator(style);
         break;
 
       case DrawMode.Mixed:
-        //TODO: return new OutlineBrushManagerDecorator(
-        //                          new FilledBrushManagerDecorator(
-        //                              brushManager));
+        return new OutlineStyleDecorator(new FilledStyleDecorator(style));
         break;
-
-      case DrawMode.MixedWithSolidOutline: // TODO: wyebac ta opcje
+      default:
+        MessageBox.Show("Remove MixedWithSolidLine!!!");
+        return null;
         break;
       }
-      return new Style(toolArgs_);
     }
 
     //protected void ShowPointInStatusBar(Point pt)
