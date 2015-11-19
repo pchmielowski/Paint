@@ -53,23 +53,23 @@ namespace Paint
                     toolArgs_.settings.DrawMode*/) // TODO: make class
     {
       IStyle style;
-      style = new Style(toolArgs_);
       switch (toolArgs_.settings.BrushType)
       {
       case BrushType.SolidBrush:
-        //brushManager = newSolidBrushManager();
+        style = new MySolidStyle(toolArgs_);
         break;
 
-      case BrushType.TextureBrush:
-        //brushManager = newTextureBrushManager();
-        break;
+      //case BrushType.TextureBrush:
+      //  break;
 
-      case BrushType.GradiantBrush:
-        //brushManager = newGradiantBrushManager();
-        break;
+      //case BrushType.GradiantBrush:
+      //  break;
 
       case BrushType.HatchBrush:
-        //brushManager = newHatchBrushManager();
+        style = new MyHatchStyle(toolArgs_);
+        break;
+      default:
+        style = new MySolidStyle(toolArgs_); // TODO: maybe parameters related to specified My*Style?
         break;
       }
 

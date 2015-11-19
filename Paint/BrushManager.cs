@@ -7,6 +7,7 @@ namespace Paint
     Pen outlinePen_ { get; set; }
     Brush fillBrush_ { get; set; }
     void Update(Rectangle rect);
+    Brush getBrushStyle();
   }
 
   public abstract class StyleDecorator : IStyle
@@ -23,6 +24,7 @@ namespace Paint
     }
     protected IStyle styleToDecorate;
     public abstract void Update(Rectangle rect);
+    public Brush getBrushStyle() { return null; }
   }
 
   public class OutlineStyleDecorator : StyleDecorator
@@ -42,18 +44,18 @@ namespace Paint
     public override void Update(Rectangle rect) { }
     private void UpdateBrush()
     {
-      styleToDecorate.fillBrush_ = new HatchBrush(HatchStyle.DashedUpwardDiagonal, Color.CornflowerBlue);
+      styleToDecorate.fillBrush_ = styleToDecorate.getBrushStyle();
     }
   }
 
-  public class Style : IStyle
+  public class MyHatchStyle : IStyle
   {
     // uses args.settings.Width, LineStyle, PrimaryColor, SecondaryColor, TextureBrushImage, GradiantStyle, HatchStyle
     public Pen outlinePen_ { get; set; }
     public Brush fillBrush_ { get; set; }
     private ToolArgs args;
 
-    public Style(ToolArgs args)
+    public MyHatchStyle(ToolArgs args)
     {
       this.args = args;
     }
@@ -116,6 +118,33 @@ namespace Paint
 
       // TODO: here is a bug
       ((LinearGradientBrush)fillBrush_).ScaleTransform(.99f, .99f);
+    }
+
+    public Brush getBrushStyle() // TODO: private 
+    {
+      return new HatchBrush(HatchStyle.Cross, Color.CornflowerBlue, Color.WhiteSmoke);
+    }
+  }
+
+  public class MySolidStyle : IStyle // TODO: Remove "My" from name
+  {
+    public Pen outlinePen_ { get; set; }
+    public Brush fillBrush_ { get; set; }
+    private ToolArgs args;
+
+    public MySolidStyle(ToolArgs args)
+    {
+      this.args = args;
+    }
+  
+    public void Update(Rectangle rect)
+    {
+ 
+    }
+
+    public Brush getBrushStyle() // TODO: private 
+    {
+      return new SolidBrush(Color.Tomato);
     }
   }
 }
