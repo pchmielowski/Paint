@@ -44,15 +44,15 @@ namespace Paint
     {
       if (e.Button == MouseButtons.Left)
       {
-        BrushManager brushManager = BrushManagerFactory();
+        Style brushManager = BrushManagerFactory();
         tool_.StartDrawing(e, brushManager);
       }
     }
 
-    private BrushManager BrushManagerFactory(/*toolArgs_.settings.BrushType, 
+    private Style BrushManagerFactory(/*toolArgs_.settings.BrushType, 
                     toolArgs_.settings.DrawMode*/) // TODO: make class
     {
-      BrushManager brushManager;
+      Style brushManager;
       switch (toolArgs_.settings.BrushType)
       {
       case BrushType.SolidBrush:
@@ -91,7 +91,7 @@ namespace Paint
       case DrawMode.MixedWithSolidOutline: // TODO: wyebac ta opcje
         break;
       }
-      return new BrushManager(toolArgs_);
+      return new Style(toolArgs_);
     }
 
     //protected void ShowPointInStatusBar(Point pt)

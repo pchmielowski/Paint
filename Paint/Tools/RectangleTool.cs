@@ -16,8 +16,8 @@ namespace Paint
     protected bool inDrawingState_;
     protected Point startLocation_;
     private TextureBrush brushSavedState_;
-    private BrushManager brushManager_;
-    public override void StartDrawing(MouseEventArgs e, BrushManager brushManager)
+    private Style brushManager_;
+    public override void StartDrawing(MouseEventArgs e, Style brushManager)
     {
       g = Graphics.FromImage(args.bitmap);
 
@@ -38,8 +38,10 @@ namespace Paint
       Rectangle rectangle = GetRectangleFromPoints(startLocation_, e.Location);
       brushManager_.Update(rectangle);
 
-      g.FillRectangle(brushManager_.fillBrush_, rectangle);
-      g.DrawRectangle(brushManager_.outlinePen_, rectangle);
+      if (brushManager_.fillBrush_ != null)
+        g.FillRectangle(brushManager_.fillBrush_, rectangle);
+      if (brushManager_.outlinePen_ != null)
+        g.DrawRectangle(brushManager_.outlinePen_, rectangle);
       args.pictureBox.Invalidate();
     }
 

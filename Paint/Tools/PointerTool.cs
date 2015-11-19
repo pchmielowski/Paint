@@ -17,7 +17,7 @@ namespace Paint
     public override void UpdateMousePosition(MouseEventArgs e)
     {
     }
-    public override void StartDrawing(MouseEventArgs e, BrushManager brushManager)
+    public override void StartDrawing(MouseEventArgs e, Style brushManager)
     {
     }
     public override void StopDrawing(MouseEventArgs e)
