@@ -18,7 +18,7 @@ namespace Paint
       args.panel1.Text = e.Location.ToString();
       args.panel2.Text = "";
     }
-    public override void StartDrawing(MouseEventArgs e, Style brushManager)
+    public override void StartDrawing(MouseEventArgs e, IStyle brushManager)
     {
     }
 

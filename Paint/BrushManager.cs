@@ -3,13 +3,35 @@ using System.Drawing.Drawing2D;
 
 namespace Paint
 {
-  public class Style
+  public interface IStyle
   {
+    Pen outlinePen_ { get; set; }
+    Brush fillBrush_ { get; set; }
+    void Update(Rectangle rect);
+  }
+
+  public abstract class StyleDecorator : IStyle
+  {
+    public Pen outlinePen_ { get; set; }
+    public Brush fillBrush_ { get; set; }
+    protected IStyle styleToDecorate;
+    public abstract void Update(Rectangle rect);
+  }
+
+  public class OutlineStyleDecorator : StyleDecorator
+  {
+    public OutlineStyleDecorator(IStyle std) { styleToDecorate = std; }
+    public override void Update(Rectangle rect) { }
+  }
+
+  public class Style : IStyle
+  {
+    // uses args.settings.Width, LineStyle, PrimaryColor, SecondaryColor, TextureBrushImage, GradiantStyle, HatchStyle
     public Pen outlinePen_ { get; set; }
     public Brush fillBrush_ { get; set; }
     private ToolArgs args;
 
-    public Style(ToolArgs args) // TODO Brush -> Style
+    public Style(ToolArgs args)
     {
       this.args = args;
       switch (args.settings.DrawMode)

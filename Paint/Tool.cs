@@ -42,7 +42,7 @@ namespace Paint
 
     public abstract void StopDrawing(MouseEventArgs e);
     public abstract void UpdateMousePosition(MouseEventArgs e);
-    public abstract void StartDrawing(MouseEventArgs e, Style brushManager);
+    public abstract void StartDrawing(MouseEventArgs e, IStyle brushManager);
 
     protected Brush GetBrush(bool inverseColors) // TODO delete
     {

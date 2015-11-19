@@ -16,8 +16,8 @@ namespace Paint
     protected bool inDrawingState_;
     protected Point startLocation_;
     private TextureBrush brushSavedState_;
-    private Style brushManager_;
-    public override void StartDrawing(MouseEventArgs e, Style brushManager)
+    private IStyle brushManager_;
+    public override void StartDrawing(MouseEventArgs e, IStyle brushManager)
     {
       g = Graphics.FromImage(args.bitmap);
 

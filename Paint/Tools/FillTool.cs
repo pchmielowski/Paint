@@ -73,7 +73,7 @@ namespace Paint
     }
 
     public override void StopDrawing(MouseEventArgs e) { }
-    public override void StartDrawing(MouseEventArgs e, Style brushManager) { }
+    public override void StartDrawing(MouseEventArgs e, IStyle brushManager) { }
 
     private void OnMouseClick(object sender, MouseEventArgs e)
     {

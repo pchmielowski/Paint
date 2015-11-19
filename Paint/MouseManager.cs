@@ -44,15 +44,15 @@ namespace Paint
     {
       if (e.Button == MouseButtons.Left)
       {
-        Style brushManager = BrushManagerFactory();
+        IStyle brushManager = StyleFactory();
         tool_.StartDrawing(e, brushManager);
       }
     }
 
-    private Style BrushManagerFactory(/*toolArgs_.settings.BrushType, 
+    private IStyle StyleFactory(/*toolArgs_.settings.BrushType, 
                     toolArgs_.settings.DrawMode*/) // TODO: make class
     {
-      Style brushManager;
+      IStyle style;
       switch (toolArgs_.settings.BrushType)
       {
       case BrushType.SolidBrush:
@@ -75,6 +75,8 @@ namespace Paint
       switch (toolArgs_.settings.DrawMode)
       {
       case DrawMode.Outline:
+        style = new Style(toolArgs_);
+        return new OutlineStyleDecorator(style);
         //TODO: return new OutlineBrushManagerDecorator(brushManager);
         break;
 
