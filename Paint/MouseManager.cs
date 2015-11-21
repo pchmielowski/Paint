@@ -19,7 +19,9 @@ namespace Paint
         break;
 
       case BrushType.GradiantBrush:
-        style = new MyGradientStyle(toolArgs);
+        style = new MyGradientStyle(toolArgs.settings.PrimaryColor,
+                                    toolArgs.settings.SecondaryColor, 
+                                    toolArgs.settings.GradiantStyle);
         break;
 
       case BrushType.HatchBrush:

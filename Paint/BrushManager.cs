@@ -142,11 +142,15 @@ namespace Paint
   {
     public Pen outlinePen_ { get; set; }
     public Brush fillBrush_ { get; set; }
-    private ToolArgs args;
 
-    public MyGradientStyle(ToolArgs args)
+    private Color c1;
+    private Color c2;
+    private LinearGradientMode mode;
+    public MyGradientStyle(Color color1, Color color2, LinearGradientMode gradientMode)
     {
-      this.args = args;
+      c1 = color1;
+      c2 = color2;
+      mode = gradientMode;
     }
 
     public void Update(Rectangle rect)
@@ -157,20 +161,17 @@ namespace Paint
       if (!(fillBrush_ is LinearGradientBrush))
         return;
 
-      RectangleF oldRect = ((LinearGradientBrush)fillBrush_).Rectangle;
-      float scaleH = rect.Height / oldRect.Height;
-      float scaleW = rect.Width / oldRect.Width;
-
-      // TODO: here is a bug
-      ((LinearGradientBrush)fillBrush_).ScaleTransform(.99f, .99f);
+      fillBrush_ = new LinearGradientBrush(rect,
+          c1, c2,
+          mode);
     }
 
     public Brush getBrushStyle() // TODO: private 
     {
-      Rectangle tempRect = new Rectangle(0, 0, args.bitmap.Width, args.bitmap.Height);
+      Rectangle tempRect = new Rectangle(0, 0, 600, 800);
       return new LinearGradientBrush(tempRect,
-          Color.Aquamarine, Color.BlanchedAlmond,
-          args.settings.GradiantStyle);
+          c1, c2,
+          mode);
     }
   }
 
