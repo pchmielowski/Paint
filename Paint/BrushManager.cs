@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 namespace Paint
 {
@@ -23,14 +24,14 @@ namespace Paint
       set { styleToDecorate.fillBrush_ = value; }
     }
     protected IStyle styleToDecorate;
-    public abstract void Update(Rectangle rect);
+    //public abstract void Update(Rectangle rect);
     public Brush getBrushStyle() { return null; }
+    public void Update(Rectangle rect) { styleToDecorate.Update(rect); }
   }
 
   public class OutlineStyleDecorator : StyleDecorator
   {
     public OutlineStyleDecorator(IStyle std) { styleToDecorate = std; UpdateOutlinePen(); }
-    public override void Update(Rectangle rect) { }
     private void UpdateOutlinePen()
     {
       styleToDecorate.outlinePen_ = new Pen(Color.DarkMagenta, 4);
@@ -41,7 +42,7 @@ namespace Paint
   public class FilledStyleDecorator : StyleDecorator
   {
     public FilledStyleDecorator(IStyle std) { styleToDecorate = std; UpdateBrush(); }
-    public override void Update(Rectangle rect) { }
+    //public override void Update(Rectangle rect) { styleToDecorate.Update(rect); }
     private void UpdateBrush()
     {
       styleToDecorate.fillBrush_ = styleToDecorate.getBrushStyle();
@@ -106,18 +107,7 @@ namespace Paint
 
     public void Update(Rectangle rect)
     {
-      if (!(fillBrush_ is LinearGradientBrush))
-        return;
 
-      if ((rect.Width == 0) || (rect.Height == 0))
-        return;
-
-      RectangleF oldRect = ((LinearGradientBrush)fillBrush_).Rectangle;
-      float scaleH = rect.Height / oldRect.Height;
-      float scaleW = rect.Width / oldRect.Width;
-
-      // TODO: here is a bug
-      ((LinearGradientBrush)fillBrush_).ScaleTransform(.99f, .99f);
     }
 
     public Brush getBrushStyle() // TODO: private 
@@ -136,15 +126,72 @@ namespace Paint
     {
       this.args = args;
     }
-  
+
     public void Update(Rectangle rect)
     {
- 
+
     }
 
     public Brush getBrushStyle() // TODO: private 
     {
       return new SolidBrush(Color.Tomato);
+    }
+  }
+
+  public class MyGradientStyle : IStyle // TODO: Remove "My" from name
+  {
+    public Pen outlinePen_ { get; set; }
+    public Brush fillBrush_ { get; set; }
+    private ToolArgs args;
+
+    public MyGradientStyle(ToolArgs args)
+    {
+      this.args = args;
+    }
+
+    public void Update(Rectangle rect)
+    {
+      if ((rect.Width == 0) || (rect.Height == 0))
+        return;
+
+      if (!(fillBrush_ is LinearGradientBrush))
+        return;
+
+      RectangleF oldRect = ((LinearGradientBrush)fillBrush_).Rectangle;
+      float scaleH = rect.Height / oldRect.Height;
+      float scaleW = rect.Width / oldRect.Width;
+
+      // TODO: here is a bug
+      ((LinearGradientBrush)fillBrush_).ScaleTransform(.99f, .99f);
+    }
+
+    public Brush getBrushStyle() // TODO: private 
+    {
+      Rectangle tempRect = new Rectangle(0, 0, args.bitmap.Width, args.bitmap.Height);
+      return new LinearGradientBrush(tempRect,
+          Color.Aquamarine, Color.BlanchedAlmond,
+          args.settings.GradiantStyle);
+    }
+  }
+
+  public class MyTextureStyle : IStyle // TODO: Remove "My" from name
+  {
+    public Pen outlinePen_ { get; set; }
+    public Brush fillBrush_ { get; set; }
+    private ToolArgs args;
+
+    public MyTextureStyle(ToolArgs args)
+    {
+      this.args = args;
+    }
+
+    public void Update(Rectangle rect)
+    {
+    }
+
+    public Brush getBrushStyle() // TODO: private 
+    {
+      return new SolidBrush(Color.DeepSkyBlue);
     }
   }
 }

@@ -3,6 +3,55 @@ using System.Windows.Forms;
 
 namespace Paint
 {
+  class StyleFactory
+  {
+    public static IStyle createStyle(ToolArgs toolArgs)
+    {
+      IStyle style;
+      switch (toolArgs.settings.BrushType)
+      {
+      case BrushType.SolidBrush:
+        style = new MySolidStyle(toolArgs);
+        break;
+
+      case BrushType.TextureBrush:
+        style = new MyTextureStyle(toolArgs);
+        break;
+
+      case BrushType.GradiantBrush:
+        style = new MyGradientStyle(toolArgs);
+        break;
+
+      case BrushType.HatchBrush:
+        style = new MyHatchStyle(toolArgs);
+        break;
+      default:
+        style = new MySolidStyle(toolArgs); // TODO: maybe parameters related to specified My*Style?
+        break;
+      }
+
+      switch (toolArgs.settings.DrawMode)
+      {
+      case DrawMode.Outline:
+        return new OutlineStyleDecorator(style);
+        break;
+
+      case DrawMode.Filled:
+        return new FilledStyleDecorator(style);
+        break;
+
+      case DrawMode.Mixed:
+        return new OutlineStyleDecorator(new FilledStyleDecorator(style));
+        break;
+
+      default:
+        MessageBox.Show("Remove MixedWithSolidLine!!!");
+        return null;
+        break;
+      }
+    }
+  }
+
   class MouseManager // TODO: MouseEventHandlersRegistrar
   {
     private Tool tool_;
@@ -44,52 +93,8 @@ namespace Paint
     {
       if (e.Button == MouseButtons.Left)
       {
-        IStyle brushManager = StyleFactory();
+        IStyle brushManager = StyleFactory.createStyle(toolArgs_);
         tool_.StartDrawing(e, brushManager);
-      }
-    }
-
-    private IStyle StyleFactory(/*toolArgs_.settings.BrushType, 
-                    toolArgs_.settings.DrawMode*/) // TODO: make class
-    {
-      IStyle style;
-      switch (toolArgs_.settings.BrushType)
-      {
-      case BrushType.SolidBrush:
-        style = new MySolidStyle(toolArgs_);
-        break;
-
-      //case BrushType.TextureBrush:
-      //  break;
-
-      //case BrushType.GradiantBrush:
-      //  break;
-
-      case BrushType.HatchBrush:
-        style = new MyHatchStyle(toolArgs_);
-        break;
-      default:
-        style = new MySolidStyle(toolArgs_); // TODO: maybe parameters related to specified My*Style?
-        break;
-      }
-
-      switch (toolArgs_.settings.DrawMode)
-      {
-      case DrawMode.Outline:
-        return new OutlineStyleDecorator(style);
-        break;
-
-      case DrawMode.Filled:
-        return new FilledStyleDecorator(style);
-        break;
-
-      case DrawMode.Mixed:
-        return new OutlineStyleDecorator(new FilledStyleDecorator(style));
-        break;
-      default:
-        MessageBox.Show("Remove MixedWithSolidLine!!!");
-        return null;
-        break;
       }
     }
 
