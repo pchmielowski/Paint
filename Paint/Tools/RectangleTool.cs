@@ -49,10 +49,6 @@ namespace Paint
       {
         args.pictureBox.Invalidate();
         inDrawingState_ = false;
-        if (style.fillBrush_ != null)
-          style.fillBrush_.Dispose();
-        if (style.outlinePen_ != null)
-          style.outlinePen_.Dispose();
         brushSavedState_.Dispose();
         g.Dispose();
       }
