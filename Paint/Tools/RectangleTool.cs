@@ -34,14 +34,12 @@ namespace Paint
         return;
 
       ClearOldShape(brushSavedState_);
+
       Rectangle rectangle = GetRectangleFromPoints(startLocation_, e.Location);
-      style.Update(rectangle);
+      GraphicsPath rectangleAsGraphicsPath = new GraphicsPath();
+      rectangleAsGraphicsPath.AddRectangle(rectangle);
 
-      if (style.fillBrush_ != null)
-        g.FillRectangle(style.fillBrush_, rectangle);
-      if (style.outlinePen_ != null)
-        g.DrawRectangle(style.outlinePen_, rectangle);
-
+      style.DrawOnGraphics(rectangleAsGraphicsPath, g);
       args.pictureBox.Invalidate();
     }
 
