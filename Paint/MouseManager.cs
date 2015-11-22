@@ -15,7 +15,7 @@ namespace Paint
         break;
 
       case BrushType.TextureBrush:
-        style = new MyTextureStyle(toolArgs);
+        style = new MyTextureStyle(toolArgs.settings.TextureBrushImage);
         break;
 
       case BrushType.GradiantBrush:
@@ -25,8 +25,11 @@ namespace Paint
         break;
 
       case BrushType.HatchBrush:
-        style = new MyHatchStyle(toolArgs);
+        style = new MyHatchStyle(toolArgs.settings.PrimaryColor,
+                                    toolArgs.settings.SecondaryColor,
+                                    toolArgs.settings.HatchStyle);
         break;
+
       default:
         style = new MySolidStyle(toolArgs.settings.PrimaryColor); // TODO: maybe parameters related to specified My*Style?
         break;

@@ -51,68 +51,30 @@ namespace Paint
 
   public class MyHatchStyle : IStyle
   {
-    // uses args.settings.Width, LineStyle, PrimaryColor, SecondaryColor, TextureBrushImage, GradiantStyle, HatchStyle
     public Pen outlinePen_ { get; set; }
     public Brush fillBrush_ { get; set; }
-    private ToolArgs args;
+    private HatchStyle hatchStyle;
+    private Color color1;
+    private Color color2;
 
-    public MyHatchStyle(ToolArgs args)
+    public MyHatchStyle(Color c1, Color c2, HatchStyle h)
     {
-      this.args = args;
+      this.hatchStyle = h;
+      this.color1 = c1;
+      this.color2 = c2;
     }
 
-    private void UpdateBrush()
-    {
-      fillBrush_ = GetBrush();
-    }
+    //private void UpdateOutlinePen(ToolArgs args)
+    //{
+    //  outlinePen_ = new Pen(GetBrush(), args.settings.Width);
+    //  outlinePen_.DashStyle = args.settings.LineStyle;
+    //}
 
-    private void UpdateOutlinePen(ToolArgs args)
-    {
-      outlinePen_ = new Pen(GetBrush(), args.settings.Width);
-      outlinePen_.DashStyle = args.settings.LineStyle;
-    }
-
-    private Brush GetBrush()
-    {
-      Color c1, c2;
-
-      c1 = args.settings.PrimaryColor;
-      c2 = args.settings.SecondaryColor;
-
-      Brush brush = null;
-      switch (args.settings.BrushType)
-      {
-      case BrushType.SolidBrush:
-        brush = new SolidBrush(c1);
-        break;
-
-      case BrushType.TextureBrush:
-        brush = new TextureBrush(args.settings.TextureBrushImage);
-        break;
-
-      case BrushType.GradiantBrush:
-        int w = args.settings.Width;
-        Rectangle tempRect = new Rectangle(0, 0, args.bitmap.Width, args.bitmap.Height);
-        brush = new LinearGradientBrush(tempRect,
-            c1, c2, args.settings.GradiantStyle);
-        break;
-
-      case BrushType.HatchBrush:
-        brush = new HatchBrush(args.settings.HatchStyle, c1, c2);
-        break;
-      }
-
-      return brush;
-    }
-
-    public void Update(Rectangle rect)
-    {
-
-    }
+    public void Update(Rectangle rect) { }
 
     public Brush getBrushStyle() // TODO: private 
     {
-      return new HatchBrush(HatchStyle.Cross, Color.CornflowerBlue, Color.WhiteSmoke);
+      return new HatchBrush(hatchStyle, color1, color2);
     }
   }
 
@@ -179,20 +141,19 @@ namespace Paint
   {
     public Pen outlinePen_ { get; set; }
     public Brush fillBrush_ { get; set; }
-    private ToolArgs args;
 
-    public MyTextureStyle(ToolArgs args)
+    private Image textureBrushStyle;
+
+    public MyTextureStyle(Image textureBrushStyle)
     {
-      this.args = args;
+      this.textureBrushStyle = textureBrushStyle;
     }
 
-    public void Update(Rectangle rect)
-    {
-    }
+    public void Update(Rectangle rect) {}
 
     public Brush getBrushStyle() // TODO: private 
     {
-      return new SolidBrush(Color.DeepSkyBlue);
+      return new TextureBrush(textureBrushStyle);
     }
   }
 }
