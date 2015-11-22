@@ -9,16 +9,16 @@ namespace Paint
     {
         public Bitmap bitmap;
         public PictureBox pictureBox;
-        public StatusBarPanel panel1;
-        public StatusBarPanel panel2;
+        public StatusBarPanel statusBarLeft;
+        public StatusBarPanel statusBarRight;
         public IPaintSettings settings;
 
         public ToolArgs(Bitmap bmp, PictureBox picBox, StatusBarPanel p1, StatusBarPanel p2, IPaintSettings settings)
         {
-            bitmap = bmp;
-            pictureBox = picBox;
-            panel1 = p1;
-            panel2 = p2;
+            this.bitmap = bmp;
+            this.pictureBox = picBox;
+            this.statusBarLeft = p1;
+            this.statusBarRight = p2;
             this.settings = settings;
         }
     }

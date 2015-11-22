@@ -47,9 +47,10 @@
       this.toolsBar = new System.Windows.Forms.ToolBar();
       this.arrowBtn = new System.Windows.Forms.ToolBarButton();
       this.lineBtn = new System.Windows.Forms.ToolBarButton();
-      this.pencilBtn = new System.Windows.Forms.ToolBarButton();
       this.rectangleBtn = new System.Windows.Forms.ToolBarButton();
       this.ellipseBtn = new System.Windows.Forms.ToolBarButton();
+      this.separator = new System.Windows.Forms.ToolBarButton();
+      this.pencilBtn = new System.Windows.Forms.ToolBarButton();
       this.brushBtn = new System.Windows.Forms.ToolBarButton();
       this.fillBtn = new System.Windows.Forms.ToolBarButton();
       this.textBtn = new System.Windows.Forms.ToolBarButton();
@@ -218,9 +219,10 @@
       this.toolsBar.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
             this.arrowBtn,
             this.lineBtn,
-            this.pencilBtn,
             this.rectangleBtn,
             this.ellipseBtn,
+            this.separator,
+            this.pencilBtn,
             this.brushBtn,
             this.fillBtn,
             this.textBtn,
@@ -246,11 +248,6 @@
       this.lineBtn.ImageIndex = 0;
       this.lineBtn.Name = "lineBtn";
       // 
-      // pencilBtn
-      // 
-      this.pencilBtn.ImageIndex = 2;
-      this.pencilBtn.Name = "pencilBtn";
-      // 
       // rectangleBtn
       // 
       this.rectangleBtn.ImageIndex = 1;
@@ -260,6 +257,16 @@
       // 
       this.ellipseBtn.ImageIndex = 4;
       this.ellipseBtn.Name = "ellipseBtn";
+      // 
+      // separator
+      // 
+      this.separator.Enabled = false;
+      this.separator.Name = "separator";
+      // 
+      // pencilBtn
+      // 
+      this.pencilBtn.ImageIndex = 2;
+      this.pencilBtn.Name = "pencilBtn";
       // 
       // brushBtn
       // 
@@ -328,7 +335,7 @@
       // brushImageBox
       // 
       this.brushImageBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.brushImageBox.Location = new System.Drawing.Point(271, 31);
+      this.brushImageBox.Location = new System.Drawing.Point(490, 34);
       this.brushImageBox.Name = "brushImageBox";
       this.brushImageBox.Size = new System.Drawing.Size(34, 24);
       this.brushImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -339,7 +346,7 @@
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(186, 37);
+      this.label6.Location = new System.Drawing.Point(408, 37);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(76, 13);
       this.label6.TabIndex = 13;
@@ -399,7 +406,7 @@
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(475, 11);
+      this.label4.Location = new System.Drawing.Point(378, 11);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(76, 13);
       this.label4.TabIndex = 7;
@@ -408,7 +415,7 @@
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(366, 11);
+      this.label3.Location = new System.Drawing.Point(197, 37);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(38, 13);
       this.label3.TabIndex = 6;
@@ -436,7 +443,7 @@
       // 
       this.gradiantStyleCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.gradiantStyleCombo.FormattingEnabled = true;
-      this.gradiantStyleCombo.Location = new System.Drawing.Point(560, 8);
+      this.gradiantStyleCombo.Location = new System.Drawing.Point(460, 4);
       this.gradiantStyleCombo.Name = "gradiantStyleCombo";
       this.gradiantStyleCombo.Size = new System.Drawing.Size(121, 21);
       this.gradiantStyleCombo.TabIndex = 3;
@@ -445,7 +452,7 @@
       // 
       this.widthCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.widthCombo.FormattingEnabled = true;
-      this.widthCombo.Location = new System.Drawing.Point(407, 8);
+      this.widthCombo.Location = new System.Drawing.Point(260, 34);
       this.widthCombo.Name = "widthCombo";
       this.widthCombo.Size = new System.Drawing.Size(62, 21);
       this.widthCombo.TabIndex = 2;
@@ -559,6 +566,7 @@
     private System.Windows.Forms.MenuItem fileExitMnu;
     private System.Windows.Forms.ToolBarButton fillBtn;
     private System.Windows.Forms.ImageList imageList;
+    private System.Windows.Forms.ToolBarButton separator;
   }
 }
 

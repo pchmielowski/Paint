@@ -19,7 +19,7 @@ namespace Paint
     private Tool curTool;
     private IPaintSettings settings;
 
-    private MouseManager mouseManager;
+    private MouseEventManager mouseManager;
 
     public PaintForm()
     {
@@ -27,7 +27,7 @@ namespace Paint
       toolsBar.ImageList = imageList;
       settings = (IPaintSettings)this;
 
-      mouseManager = new MouseManager();
+      mouseManager = new MouseEventManager();
     }
 
     private void toolsBar_ButtonClick(object sender, ToolBarButtonClickEventArgs e)
@@ -102,35 +102,24 @@ namespace Paint
 
     private void PaintForm_Load(object sender, EventArgs e)
     {
-      // fill (fill style) list
-      for (int i = 0; i < 3; i++)
-      {
-        BrushType bt = (BrushType)i;
-        fillStyleCombo.Items.Add(bt);
-      }
-      for (int i = 0; i < 53; i++)
-      {
-        HatchStyle hs = (HatchStyle)i;
-        fillStyleCombo.Items.Add(hs);
-      }
-      fillStyleCombo.SelectedIndex = 0;
+      FillFillStyleList();
 
-      // fill shape style list
-      for (int i = 0; i < 4; i++)
-      {
-        DrawMode ss = (DrawMode)i;
-        shapeStyleCombo.Items.Add(ss);
-      }
-      shapeStyleCombo.SelectedIndex = 0;
+      FillShapeStyleList();
 
-      // fill Width list
-      for (int i = 1; i < 11; i++)
-        widthCombo.Items.Add(i);
-      for (int i = 15; i <= 60; i += 5)
-        widthCombo.Items.Add(i);
-      widthCombo.SelectedIndex = 0;
+      FillWidthList();
 
-      // fill Gradiant style list
+      FillGradientStyleList();
+
+      // default texture brush image
+      brushImageBox.Image = new Bitmap(20, 20);
+
+      // default image
+      imageFile = new ImageFile(new Size(500, 500), Color.White);
+      ShowImage();
+    }
+
+    private void FillGradientStyleList()
+    {
       for (int i = 0; i < 4; i++)
       {
         LinearGradientMode gm = (LinearGradientMode)i;
@@ -144,13 +133,44 @@ namespace Paint
         lineStyleCombo.Items.Add(ds.ToString());
       }
       lineStyleCombo.SelectedIndex = 0;
+    }
 
-      // default texture brush image
-      brushImageBox.Image = new Bitmap(20, 20);
+    private void FillWidthList()
+    {
+      // fill Width list
+      for (int i = 1; i <= 10; i++)
+        widthCombo.Items.Add(i);
+      for (int i = 15; i <= 60; i += 5)
+        widthCombo.Items.Add(i);
+      widthCombo.SelectedIndex = 0;
+    }
 
-      // default image
-      imageFile = new ImageFile(new Size(500, 500), Color.White);
-      ShowImage();
+    private void FillShapeStyleList()
+    {
+      // fill shape style list
+      for (int i = 0; i < 4; i++)
+      {
+        DrawMode ss = (DrawMode)i;
+        shapeStyleCombo.Items.Add(ss);
+      }
+      shapeStyleCombo.SelectedIndex = 0;
+    }
+
+    private void FillFillStyleList()
+    {
+      // fill (fill style) list
+      for (int i = 0; i < 3; i++)
+      {
+        BrushType bt = (BrushType)i;
+        fillStyleCombo.Items.Add(bt);
+      }
+      const int NUM_HATCH_STYLES = 53;
+      for (int i = 0; i < NUM_HATCH_STYLES; i++)
+      {
+        HatchStyle hs = (HatchStyle)i;
+        fillStyleCombo.Items.Add(hs);
+      }
+      fillStyleCombo.SelectedIndex = 0;
     }
 
     DrawMode IPaintSettings.DrawMode
@@ -169,7 +189,7 @@ namespace Paint
       }
     }
 
-    LinearGradientMode IPaintSettings.GradiantStyle
+    LinearGradientMode IPaintSettings.GradientOrientation
     {
       get
       {
@@ -314,11 +334,11 @@ namespace Paint
 
     private void fileOpenMnu_Click(object sender, EventArgs e)
     {
-      OpenFileDialog openDlg = new OpenFileDialog();
-      openDlg.Filter = "Image Files .BMP .JPG .GIF .Png|*.BMP;*.JPG;*.GIF;*.PNG";
-      if (openDlg.ShowDialog() == DialogResult.OK)
+      OpenFileDialog fileDialog = new OpenFileDialog();
+      fileDialog.Filter = "Image Files .BMP .JPG .GIF .Png|*.BMP;*.JPG;*.GIF;*.PNG";
+      if (fileDialog.ShowDialog() == DialogResult.OK)
       {
-        if (imageFile.Open(openDlg.FileName))
+        if (imageFile.Open(fileDialog.FileName))
         {
           ShowImage();
         }
@@ -364,8 +384,12 @@ namespace Paint
 
     private void ShowImage()
     {
-      string t = imageFile.FileName;
-      Text = String.Format("Paint - [{0}]", t == null ? "Untitled" : new FileInfo(t).Name);
+      string fileName = imageFile.FileName;
+      if (fileName == null)
+        fileName = "Untitled";
+      else
+        fileName = new FileInfo(fileName).Name;
+      Text = string.Format("Paint - [{0}]", fileName);
 
       imageBox.ClientSize = imageFile.Bitmap.Size;
       imageBox.Invalidate();

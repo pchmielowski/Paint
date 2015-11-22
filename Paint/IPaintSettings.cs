@@ -17,7 +17,7 @@ namespace Paint
             get;
         }
 
-        LinearGradientMode GradiantStyle
+        LinearGradientMode GradientOrientation
         {
             get;
         }

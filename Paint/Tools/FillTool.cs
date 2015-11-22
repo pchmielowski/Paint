@@ -3,8 +3,6 @@ using System;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-using System.Drawing.Drawing2D;
 
 namespace Paint
 {

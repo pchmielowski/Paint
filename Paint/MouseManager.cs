@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Drawing;
 
 namespace Paint
 {
@@ -19,8 +20,8 @@ namespace Paint
 
       case BrushType.GradiantBrush:
         style = new MyGradientStyle(toolArgs.settings.PrimaryColor,
-                                    toolArgs.settings.SecondaryColor, 
-                                    toolArgs.settings.GradiantStyle);
+                                    toolArgs.settings.SecondaryColor,
+                                    toolArgs.settings.GradientOrientation);
         break;
 
       case BrushType.HatchBrush:
@@ -30,88 +31,96 @@ namespace Paint
         break;
 
       default:
-        style = new MySolidStyle(toolArgs.settings.PrimaryColor); // TODO: maybe parameters related to specified My*Style?
-        break;
+        throw new System.Exception("Unknown style");
       }
 
       switch (toolArgs.settings.DrawMode)
       {
       case DrawMode.Outline:
         return new OutlineStyleDecorator(style);
-        break;
 
       case DrawMode.Filled:
         return new FilledStyleDecorator(style);
-        break;
 
       case DrawMode.Mixed:
         return new OutlineStyleDecorator(new FilledStyleDecorator(style));
-        break;
 
       default:
-        MessageBox.Show("Remove MixedWithSolidLine!!!");
-        return null;
-        break;
+        throw new System.Exception("Unknown style");
       }
     }
   }
 
-  class MouseManager // TODO: MouseEventHandlersRegistrar
+  class MouseEventManager
   {
     private Tool tool_;
-    private ToolArgs toolArgs_;
+    private ToolArgs toolSettings;
 
     public void UpdateTool(Tool tool, ToolArgs toolArgs)
     {
       tool_ = tool;
-      toolArgs_ = toolArgs;
+      toolSettings = toolArgs;
 
-      toolArgs_.pictureBox.MouseDown +=
+      toolSettings.pictureBox.MouseDown +=
         new MouseEventHandler(OnMouseDown);
-      toolArgs_.pictureBox.MouseMove +=
+      toolSettings.pictureBox.MouseMove +=
         new MouseEventHandler(OnMouseMove);
-      toolArgs_.pictureBox.MouseUp +=
+      toolSettings.pictureBox.MouseUp +=
         new MouseEventHandler(OnMouseUp);
     }
-    ~MouseManager()
+    ~MouseEventManager()
     {
       // TODO: zastanowic sie gdzie to dac
-      toolArgs_.pictureBox.MouseDown -= new MouseEventHandler(OnMouseDown);
-      toolArgs_.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
-      toolArgs_.pictureBox.MouseUp -= new MouseEventHandler(OnMouseUp);
+      toolSettings.pictureBox.MouseDown -= new MouseEventHandler(OnMouseDown);
+      toolSettings.pictureBox.MouseMove -= new MouseEventHandler(OnMouseMove);
+      toolSettings.pictureBox.MouseUp -= new MouseEventHandler(OnMouseUp);
     }
 
+    private bool twoPointsInStatusBar = false;
+    private Point startingPoint;
     private void OnMouseUp(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Left)
+      {
         tool_.StopDrawing(e);
+        twoPointsInStatusBar = false;
+      }
     }
 
     private void OnMouseMove(object sender, MouseEventArgs e)
     {
       tool_.UpdateMousePosition(e);
-      // TODO: updatowanie statusbaru
+      if (twoPointsInStatusBar)
+      {
+        ShowPointInStatusBar(startingPoint, e.Location);
+      }
+      else
+      {
+        ShowPointInStatusBar(e.Location);
+      }
     }
 
     private void OnMouseDown(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Left)
       {
-        IStyle brushManager = StyleFactory.createStyle(toolArgs_);
+        IStyle brushManager = StyleFactory.createStyle(toolSettings);
         tool_.StartDrawing(e, brushManager);
+        twoPointsInStatusBar = true;
+        startingPoint = e.Location;
       }
     }
 
-    //protected void ShowPointInStatusBar(Point pt)
-    //{
-    //  args.panel1.Text = pt.ToString();
-    //  args.panel2.Text = "";
-    //}
+    protected void ShowPointInStatusBar(Point point)
+    {
+      toolSettings.statusBarLeft.Text = point.ToString();
+      toolSettings.statusBarRight.Text = "";
+    }
 
-    //protected void ShowPointInStatusBar(Point pt1, Point pt2)
-    //{
-    //  args.panel1.Text = pt1.ToString();
-    //  args.panel2.Text = pt2.ToString();
-    //}
+    protected void ShowPointInStatusBar(Point startPoint, Point endPoint)
+    {
+      toolSettings.statusBarLeft.Text = startPoint.ToString();
+      toolSettings.statusBarRight.Text = endPoint.ToString();
+    }
   }
 }

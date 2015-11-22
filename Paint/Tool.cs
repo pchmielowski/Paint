@@ -74,7 +74,7 @@ namespace Paint
         int w = args.settings.Width;
         Rectangle tempRect = new Rectangle(0, 0, args.bitmap.Width, args.bitmap.Height);
         brush = new LinearGradientBrush(tempRect,
-            c1, c2, args.settings.GradiantStyle);
+            c1, c2, args.settings.GradientOrientation);
         break;
 
       case BrushType.HatchBrush:

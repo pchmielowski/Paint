@@ -15,8 +15,8 @@ namespace Paint
 
     public override void UpdateMousePosition(MouseEventArgs e)
     {
-      args.panel1.Text = e.Location.ToString();
-      args.panel2.Text = "";
+      args.statusBarLeft.Text = e.Location.ToString();
+      args.statusBarRight.Text = "";
     }
     public override void StartDrawing(MouseEventArgs e, IStyle brushManager)
     {
