@@ -60,7 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrushManager.cs" />
+    <Compile Include="Style.cs" />
     <Compile Include="MouseManager.cs" />
     <Compile Include="Tools\PointerTool.cs" />
     <Compile Include="Tools\BrushTool.cs" />

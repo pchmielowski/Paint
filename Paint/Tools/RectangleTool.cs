@@ -10,18 +10,17 @@ namespace Paint
         : base(args)
     {
       inDrawingState_ = false;
-      args.pictureBox.Cursor = Cursors.Cross;
     }
 
     protected bool inDrawingState_;
     protected Point startLocation_;
     private TextureBrush brushSavedState_;
-    private IStyle brushManager_;
-    public override void StartDrawing(MouseEventArgs e, IStyle brushManager)
+    private IStyle style;
+    public override void StartDrawing(MouseEventArgs e, IStyle style)
     {
       g = Graphics.FromImage(args.bitmap);
 
-      brushManager_ = brushManager;
+      this.style = style;
 
       inDrawingState_ = true;
       startLocation_ = e.Location;
@@ -36,12 +35,13 @@ namespace Paint
 
       ClearOldShape(brushSavedState_);
       Rectangle rectangle = GetRectangleFromPoints(startLocation_, e.Location);
-      brushManager_.Update(rectangle);
+      style.Update(rectangle);
 
-      if (brushManager_.fillBrush_ != null)
-        g.FillRectangle(brushManager_.fillBrush_, rectangle);
-      if (brushManager_.outlinePen_ != null)
-        g.DrawRectangle(brushManager_.outlinePen_, rectangle);
+      if (style.fillBrush_ != null)
+        g.FillRectangle(style.fillBrush_, rectangle);
+      if (style.outlinePen_ != null)
+        g.DrawRectangle(style.outlinePen_, rectangle);
+
       args.pictureBox.Invalidate();
     }
 
@@ -51,10 +51,10 @@ namespace Paint
       {
         args.pictureBox.Invalidate();
         inDrawingState_ = false;
-        if (brushManager_.fillBrush_ != null)
-          brushManager_.fillBrush_.Dispose();
-        if (brushManager_.outlinePen_ != null)
-          brushManager_.outlinePen_.Dispose();
+        if (style.fillBrush_ != null)
+          style.fillBrush_.Dispose();
+        if (style.outlinePen_ != null)
+          style.outlinePen_.Dispose();
         brushSavedState_.Dispose();
         g.Dispose();
       }

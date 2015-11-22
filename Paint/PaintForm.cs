@@ -47,6 +47,7 @@ namespace Paint
       }
       else if (curButton == rectangleBtn)
       {
+        toolArgs.pictureBox.Cursor = Cursors.Cross;
         curTool = new RectangleTool(toolArgs);
       }
       else if (curButton == pencilBtn)
