@@ -11,7 +11,7 @@ namespace Paint
       switch (toolArgs.settings.BrushType)
       {
       case BrushType.SolidBrush:
-        style = new MySolidStyle(toolArgs);
+        style = new MySolidStyle(toolArgs.settings.PrimaryColor);
         break;
 
       case BrushType.TextureBrush:
@@ -28,7 +28,7 @@ namespace Paint
         style = new MyHatchStyle(toolArgs);
         break;
       default:
-        style = new MySolidStyle(toolArgs); // TODO: maybe parameters related to specified My*Style?
+        style = new MySolidStyle(toolArgs.settings.PrimaryColor); // TODO: maybe parameters related to specified My*Style?
         break;
       }
 

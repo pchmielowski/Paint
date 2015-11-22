@@ -120,11 +120,11 @@ namespace Paint
   {
     public Pen outlinePen_ { get; set; }
     public Brush fillBrush_ { get; set; }
-    private ToolArgs args;
+    private Color color;
 
-    public MySolidStyle(ToolArgs args)
+    public MySolidStyle(Color color)
     {
-      this.args = args;
+      this.color = color;
     }
 
     public void Update(Rectangle rect)
@@ -134,7 +134,7 @@ namespace Paint
 
     public Brush getBrushStyle() // TODO: private 
     {
-      return new SolidBrush(Color.Tomato);
+      return new SolidBrush(color);
     }
   }
 
