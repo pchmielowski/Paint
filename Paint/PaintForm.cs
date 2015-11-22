@@ -47,8 +47,9 @@ namespace Paint
       }
       else if (curButton == rectangleBtn)
       {
+        ShapeCreator shapeCreator = new RectangleCreator();
         toolArgs.pictureBox.Cursor = Cursors.Cross;
-        curTool = new RectangleTool(toolArgs);
+        curTool = new ShapeTool(toolArgs, shapeCreator);
       }
       else if (curButton == pencilBtn)
       {
@@ -60,7 +61,9 @@ namespace Paint
       }
       else if (curButton == ellipseBtn)
       {
-        curTool = new EllipseTool(toolArgs);
+        ShapeCreator shapeCreator = new ElipseCreator();
+        toolArgs.pictureBox.Cursor = Cursors.Cross;
+        curTool = new ShapeTool(toolArgs, shapeCreator);
       }
       else if (curButton == textBtn)
       {

@@ -4,12 +4,14 @@ using System.Windows.Forms;
 
 namespace Paint
 {
-  public class RectangleTool : Tool
+  public class ShapeTool : Tool
   {
-    public RectangleTool(ToolArgs args)
+    ShapeCreator shapeCreator;
+    public ShapeTool(ToolArgs args, ShapeCreator shapeCreator)
         : base(args)
     {
       inDrawingState_ = false;
+      this.shapeCreator = shapeCreator;
     }
 
     protected bool inDrawingState_;
@@ -36,10 +38,9 @@ namespace Paint
       ClearOldShape(brushSavedState_);
 
       Rectangle rectangle = GetRectangleFromPoints(startLocation_, e.Location);
-      GraphicsPath rectangleAsGraphicsPath = new GraphicsPath();
-      rectangleAsGraphicsPath.AddRectangle(rectangle);
+      GraphicsPath shape = shapeCreator.CreateShape(rectangle);
 
-      style.DrawOnGraphics(rectangleAsGraphicsPath, g);
+      style.DrawOnGraphics(shape, g);
       args.pictureBox.Invalidate();
     }
 
@@ -57,6 +58,30 @@ namespace Paint
     public override void UnloadTool()
     {
       args.pictureBox.Cursor = Cursors.Arrow;
+    }
+  }
+
+  public abstract class ShapeCreator
+  {
+    public abstract GraphicsPath CreateShape(Rectangle boundaries);
+  }
+
+  public class RectangleCreator : ShapeCreator
+  {
+    public override GraphicsPath CreateShape(Rectangle boundaries)
+    {
+      GraphicsPath rectangleAsGraphicsPath = new GraphicsPath();
+      rectangleAsGraphicsPath.AddRectangle(boundaries);
+      return rectangleAsGraphicsPath;
+    }
+  }
+  public class ElipseCreator : ShapeCreator
+  {
+    public override GraphicsPath CreateShape(Rectangle boundaries)
+    {
+      GraphicsPath rectangleAsGraphicsPath = new GraphicsPath();
+      rectangleAsGraphicsPath.AddEllipse(boundaries);
+      return rectangleAsGraphicsPath;
     }
   }
 }

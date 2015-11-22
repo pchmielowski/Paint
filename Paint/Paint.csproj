@@ -65,7 +65,6 @@
     <Compile Include="Tools\PointerTool.cs" />
     <Compile Include="Tools\BrushTool.cs" />
     <Compile Include="Tools\ClipboardTool.cs" />
-    <Compile Include="Tools\EllipseTool.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Tools\FillTool.cs" />
     <Compile Include="ImageFile.cs" />
