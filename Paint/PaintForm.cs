@@ -1,11 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
@@ -399,6 +394,103 @@ namespace Paint
         curTool.UnloadTool();
       curTool = new PointerTool(toolArgs);
       SetToolBarButtonsState(arrowBtn);
+    }
+
+    private void Blur_Blur_Click(object sender, EventArgs e)
+    {
+      BlurImage();
+    }
+
+    private unsafe void BlurImage()
+    {
+      Rectangle bRect = new Rectangle(new System.Drawing.Point(0, 0), toolArgs.bitmap.Size);
+      BitmapData bData = toolArgs.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, toolArgs.bitmap.PixelFormat);
+
+      int height = toolArgs.bitmap.Size.Height;
+      int width = toolArgs.bitmap.Size.Width;
+      int pixelSize = bData.Stride / bData.Width;
+
+      const int filterSize = 5;
+      for (int x = filterSize; x < width - filterSize; x++)
+      {
+        for (int y = 0; y < height; y++)
+        {
+          byte[] signalInR = new byte[filterSize];
+          byte[] signalInG = new byte[filterSize];
+          byte[] signalInB = new byte[filterSize];
+          for (int i = 0; i < filterSize; ++i)
+          {
+            int offset = i;// - (i / 2);
+            signalInR[i] = *(GetPixelBaseAddress(bData, pixelSize, x + offset, y) + 0);
+            signalInG[i] = *(GetPixelBaseAddress(bData, pixelSize, x + offset, y) + 1);
+            signalInB[i] = *(GetPixelBaseAddress(bData, pixelSize, x + offset, y) + 2);
+          }
+
+          byte* pixelBaseAddress = GetPixelBaseAddress(bData, pixelSize, x, y);
+          for (int i = 0; i < filterSize; ++i)
+          {
+            byte* outPixelBaseAddress = pixelBaseAddress;
+
+            *outPixelBaseAddress = 0;
+            *(outPixelBaseAddress + 1) = 0;
+            *(outPixelBaseAddress + 2) = 0;
+
+            const int NUM_CHANNELS = 1;
+            for (int channelIdx = 0; channelIdx < NUM_CHANNELS; ++channelIdx)
+            {
+              *(outPixelBaseAddress + 0) += (byte)((signalInR[i]) / (filterSize));
+              *(outPixelBaseAddress + 1) += (byte)((signalInG[i]) / (filterSize));
+              *(outPixelBaseAddress + 2) += (byte)((signalInB[i]) / (filterSize));
+            }
+          }
+        }
+      }
+      toolArgs.pictureBox.Invalidate();
+
+      toolArgs.bitmap.UnlockBits(bData);
+    }
+
+    private static unsafe byte* GetPixelBaseAddress(BitmapData bData, int pixelSize, int x, int y)
+    {
+      return (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
+    }
+
+    private void Monochrome_Click(object sender, EventArgs e)
+    {
+      DesaturateImage();
+    }
+
+    private unsafe void DesaturateImage()
+    {
+      Rectangle bRect = new Rectangle(new System.Drawing.Point(0, 0), toolArgs.bitmap.Size);
+      BitmapData bData = toolArgs.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, toolArgs.bitmap.PixelFormat);
+
+      int height = toolArgs.bitmap.Size.Height;
+      int width = toolArgs.bitmap.Size.Width;
+      int pixelSize = bData.Stride / bData.Width;
+
+      for (int x = 0; x < width; x++)
+      {
+        for (int y = 0; y < height; y++)
+        {
+          byte* pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
+          byte value = 0;
+          const int NUM_CHANNELS = 3;
+          for (int channelIdx = 0; channelIdx < NUM_CHANNELS; ++channelIdx)
+          {
+            value += (byte)(*pixelBaseAddress++ / NUM_CHANNELS);
+          }
+          pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
+          for (int channelIdx = 0; channelIdx < NUM_CHANNELS; ++channelIdx)
+          {
+            *pixelBaseAddress++ = value;
+          }
+
+        }
+      }
+      toolArgs.pictureBox.Invalidate();
+
+      toolArgs.bitmap.UnlockBits(bData);
     }
   }
 }

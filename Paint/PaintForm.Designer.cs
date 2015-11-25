@@ -39,8 +39,12 @@
       this.editPasteMnu = new System.Windows.Forms.MenuItem();
       this.imageMnu = new System.Windows.Forms.MenuItem();
       this.imageClearMnu = new System.Windows.Forms.MenuItem();
+      this.Monochrome = new System.Windows.Forms.MenuItem();
       this.helpMnu = new System.Windows.Forms.MenuItem();
       this.helpAboutMnu = new System.Windows.Forms.MenuItem();
+      this.menuItem1 = new System.Windows.Forms.MenuItem();
+      this.menuItem2 = new System.Windows.Forms.MenuItem();
+      this.Blur_Blur = new System.Windows.Forms.MenuItem();
       this.statusBar = new System.Windows.Forms.StatusBar();
       this.pointPanel1 = new System.Windows.Forms.StatusBarPanel();
       this.pointPanel2 = new System.Windows.Forms.StatusBarPanel();
@@ -74,6 +78,7 @@
       this.shapeStyleCombo = new System.Windows.Forms.ComboBox();
       this.fillStyleCombo = new System.Windows.Forms.ComboBox();
       this.imageList = new System.Windows.Forms.ImageList(this.components);
+      this.Filter_Play = new System.Windows.Forms.MenuItem();
       ((System.ComponentModel.ISupportInitialize)(this.pointPanel1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.pointPanel2)).BeginInit();
       this.imgContainer.SuspendLayout();
@@ -90,7 +95,8 @@
             this.fileMnu,
             this.editMnu,
             this.imageMnu,
-            this.helpMnu});
+            this.helpMnu,
+            this.menuItem1});
       // 
       // fileMnu
       // 
@@ -170,7 +176,8 @@
       // 
       this.imageMnu.Index = 2;
       this.imageMnu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.imageClearMnu});
+            this.imageClearMnu,
+            this.Monochrome});
       this.imageMnu.Text = "Image";
       // 
       // imageClearMnu
@@ -178,6 +185,12 @@
       this.imageClearMnu.Index = 0;
       this.imageClearMnu.Text = "&Clear";
       this.imageClearMnu.Click += new System.EventHandler(this.imageClearMnu_Click);
+      // 
+      // Monochrome
+      // 
+      this.Monochrome.Index = 1;
+      this.Monochrome.Text = "Monochrome";
+      this.Monochrome.Click += new System.EventHandler(this.Monochrome_Click);
       // 
       // helpMnu
       // 
@@ -190,6 +203,27 @@
       // 
       this.helpAboutMnu.Index = 0;
       this.helpAboutMnu.Text = "&About...";
+      // 
+      // menuItem1
+      // 
+      this.menuItem1.Index = 4;
+      this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem2,
+            this.Filter_Play});
+      this.menuItem1.Text = "Filters";
+      // 
+      // menuItem2
+      // 
+      this.menuItem2.Index = 0;
+      this.menuItem2.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.Blur_Blur});
+      this.menuItem2.Text = "Blur";
+      // 
+      // Blur_Blur
+      // 
+      this.Blur_Blur.Index = 0;
+      this.Blur_Blur.Text = "Blur";
+      this.Blur_Blur.Click += new System.EventHandler(this.Blur_Blur_Click);
       // 
       // statusBar
       // 
@@ -489,6 +523,11 @@
       this.imageList.Images.SetKeyName(7, "");
       this.imageList.Images.SetKeyName(8, "");
       // 
+      // Filter_Play
+      // 
+      this.Filter_Play.Index = 1;
+      this.Filter_Play.Text = "Play";
+      // 
       // PaintForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -567,6 +606,11 @@
     private System.Windows.Forms.ToolBarButton fillBtn;
     private System.Windows.Forms.ImageList imageList;
     private System.Windows.Forms.ToolBarButton separator;
+    private System.Windows.Forms.MenuItem menuItem1;
+    private System.Windows.Forms.MenuItem menuItem2;
+    private System.Windows.Forms.MenuItem Blur_Blur;
+    private System.Windows.Forms.MenuItem Monochrome;
+    private System.Windows.Forms.MenuItem Filter_Play;
   }
 }
 
