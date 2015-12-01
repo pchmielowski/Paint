@@ -45,6 +45,7 @@
       this.menuItem1 = new System.Windows.Forms.MenuItem();
       this.menuItem2 = new System.Windows.Forms.MenuItem();
       this.Blur_Blur = new System.Windows.Forms.MenuItem();
+      this.Filter_Play = new System.Windows.Forms.MenuItem();
       this.statusBar = new System.Windows.Forms.StatusBar();
       this.pointPanel1 = new System.Windows.Forms.StatusBarPanel();
       this.pointPanel2 = new System.Windows.Forms.StatusBarPanel();
@@ -78,7 +79,6 @@
       this.shapeStyleCombo = new System.Windows.Forms.ComboBox();
       this.fillStyleCombo = new System.Windows.Forms.ComboBox();
       this.imageList = new System.Windows.Forms.ImageList(this.components);
-      this.Filter_Play = new System.Windows.Forms.MenuItem();
       ((System.ComponentModel.ISupportInitialize)(this.pointPanel1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.pointPanel2)).BeginInit();
       this.imgContainer.SuspendLayout();
@@ -224,6 +224,11 @@
       this.Blur_Blur.Index = 0;
       this.Blur_Blur.Text = "Blur";
       this.Blur_Blur.Click += new System.EventHandler(this.Blur_Blur_Click);
+      // 
+      // Filter_Play
+      // 
+      this.Filter_Play.Index = 1;
+      this.Filter_Play.Text = "Play";
       // 
       // statusBar
       // 
@@ -522,11 +527,6 @@
       this.imageList.Images.SetKeyName(6, "");
       this.imageList.Images.SetKeyName(7, "");
       this.imageList.Images.SetKeyName(8, "");
-      // 
-      // Filter_Play
-      // 
-      this.Filter_Play.Index = 1;
-      this.Filter_Play.Text = "Play";
       // 
       // PaintForm
       // 

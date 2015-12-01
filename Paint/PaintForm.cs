@@ -398,56 +398,31 @@ namespace Paint
 
     private void Blur_Blur_Click(object sender, EventArgs e)
     {
-      BlurImage();
+      Form prompt = new Form();
+      prompt.Width = 800;
+      prompt.Height = 600;
+      prompt.Text = "Gaussian blur";
+      Label textLabel = new Label() { Left = 50, Top = 20, Text = "Text" };
+      NumericUpDown inputBox = new NumericUpDown() { Left = 50, Top = 50, Width = 400 };
+      NumericUpDown inputBox1 = new NumericUpDown() { Left = 50, Top = 100, Width = 400 };
+      Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70 };
+      confirmation.Click += (sender_, e_) => { prompt.Close(); };
+      prompt.Controls.Add(confirmation);
+      prompt.Controls.Add(textLabel);
+      prompt.Controls.Add(inputBox);
+      prompt.Controls.Add(inputBox1);
+      prompt.ShowDialog();
+
+
+      BlurImage((double)inputBox.Value, (int)inputBox1.Value);
     }
 
-    private unsafe void BlurImage()
+    private void BlurImage(double sigma, int size)
     {
-      Rectangle bRect = new Rectangle(new System.Drawing.Point(0, 0), toolArgs.bitmap.Size);
-      BitmapData bData = toolArgs.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, toolArgs.bitmap.PixelFormat);
-
-      int height = toolArgs.bitmap.Size.Height;
-      int width = toolArgs.bitmap.Size.Width;
-      int pixelSize = bData.Stride / bData.Width;
-
-      const int filterSize = 5;
-      for (int x = filterSize; x < width - filterSize; x++)
-      {
-        for (int y = 0; y < height; y++)
-        {
-          byte[] signalInR = new byte[filterSize];
-          byte[] signalInG = new byte[filterSize];
-          byte[] signalInB = new byte[filterSize];
-          for (int i = 0; i < filterSize; ++i)
-          {
-            int offset = i;// - (i / 2);
-            signalInR[i] = *(GetPixelBaseAddress(bData, pixelSize, x + offset, y) + 0);
-            signalInG[i] = *(GetPixelBaseAddress(bData, pixelSize, x + offset, y) + 1);
-            signalInB[i] = *(GetPixelBaseAddress(bData, pixelSize, x + offset, y) + 2);
-          }
-
-          byte* pixelBaseAddress = GetPixelBaseAddress(bData, pixelSize, x, y);
-          for (int i = 0; i < filterSize; ++i)
-          {
-            byte* outPixelBaseAddress = pixelBaseAddress;
-
-            *outPixelBaseAddress = 0;
-            *(outPixelBaseAddress + 1) = 0;
-            *(outPixelBaseAddress + 2) = 0;
-
-            const int NUM_CHANNELS = 1;
-            for (int channelIdx = 0; channelIdx < NUM_CHANNELS; ++channelIdx)
-            {
-              *(outPixelBaseAddress + 0) += (byte)((signalInR[i]) / (filterSize));
-              *(outPixelBaseAddress + 1) += (byte)((signalInG[i]) / (filterSize));
-              *(outPixelBaseAddress + 2) += (byte)((signalInB[i]) / (filterSize));
-            }
-          }
-        }
-      }
+      AForge.Imaging.Filters.GaussianBlur filter = new AForge.Imaging.Filters.GaussianBlur(sigma, size);
+      Bitmap image = toolArgs.bitmap;
+      filter.ApplyInPlace(image);
       toolArgs.pictureBox.Invalidate();
-
-      toolArgs.bitmap.UnlockBits(bData);
     }
 
     private static unsafe byte* GetPixelBaseAddress(BitmapData bData, int pixelSize, int x, int y)
