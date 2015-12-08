@@ -4,6 +4,10 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Collections.Generic;
+
+
+using ImageDesaturator;
 
 namespace Paint
 {
@@ -398,23 +402,8 @@ namespace Paint
 
     private void Blur_Blur_Click(object sender, EventArgs e)
     {
-      Form prompt = new Form();
-      prompt.Width = 800;
-      prompt.Height = 600;
-      prompt.Text = "Gaussian blur";
-      Label textLabel = new Label() { Left = 50, Top = 20, Text = "Text" };
-      NumericUpDown inputBox = new NumericUpDown() { Left = 50, Top = 50, Width = 400 };
-      NumericUpDown inputBox1 = new NumericUpDown() { Left = 50, Top = 100, Width = 400 };
-      Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70 };
-      confirmation.Click += (sender_, e_) => { prompt.Close(); };
-      prompt.Controls.Add(confirmation);
-      prompt.Controls.Add(textLabel);
-      prompt.Controls.Add(inputBox);
-      prompt.Controls.Add(inputBox1);
-      prompt.ShowDialog();
-
-
-      BlurImage((double)inputBox.Value, (int)inputBox1.Value);
+      FilterDialog fDialog = new FilterDialog("Gaussian Blur", new List<string>(new string[] { "Sigma", "Size" }));
+      BlurImage((double)fDialog.inputBoxes["Sigma"].Value, (int)fDialog.inputBoxes["Size"].Value);
     }
 
     private void BlurImage(double sigma, int size)
@@ -425,28 +414,27 @@ namespace Paint
       toolArgs.pictureBox.Invalidate();
     }
 
-    private static unsafe byte* GetPixelBaseAddress(BitmapData bData, int pixelSize, int x, int y)
-    {
-      return (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
-    }
-
     private void Monochrome_Click(object sender, EventArgs e)
     {
-      DesaturateImage();
+
+      DesaturateImage(toolArgs.bitmap);
+      Class1 c = new Class1();
+      c.doDesaturate(toolArgs.bitmap);
+      toolArgs.pictureBox.Invalidate();
     }
 
-    private unsafe void DesaturateImage()
+    private unsafe void DesaturateImage(Bitmap bitmap)
     {
-      Rectangle bRect = new Rectangle(new System.Drawing.Point(0, 0), toolArgs.bitmap.Size);
-      BitmapData bData = toolArgs.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, toolArgs.bitmap.PixelFormat);
+      Rectangle bRect = new Rectangle(new System.Drawing.Point(0, 0), bitmap.Size);
+      BitmapData bData = toolArgs.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
-      int height = toolArgs.bitmap.Size.Height;
-      int width = toolArgs.bitmap.Size.Width;
+      int height = bitmap.Size.Height;
+      int width = bitmap.Size.Width;
       int pixelSize = bData.Stride / bData.Width;
 
-      for (int x = 0; x < width; x++)
+      for (int x = 0; x < 0; x++)
       {
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < 0; y++)
         {
           byte* pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
           byte value = 0;
@@ -456,16 +444,13 @@ namespace Paint
             value += (byte)(*pixelBaseAddress++ / NUM_CHANNELS);
           }
           pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
-          for (int channelIdx = 0; channelIdx < NUM_CHANNELS; ++channelIdx)
-          {
-            *pixelBaseAddress++ = value;
-          }
 
+          Class1 c = new Class1();
+          c.desaturate(NUM_CHANNELS, pixelBaseAddress, value);
         }
       }
-      toolArgs.pictureBox.Invalidate();
+      bitmap.UnlockBits(bData);
 
-      toolArgs.bitmap.UnlockBits(bData);
     }
   }
 }
