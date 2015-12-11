@@ -13,32 +13,70 @@ namespace Paint
 {
   public partial class PaintForm : Form, IPaintSettings
   {
-    private ImageFile imageFile;
-    private ToolArgs toolArgs;
-    private Tool curTool;
     private IPaintSettings settings;
-
-    private MouseEventManager mouseManager;
 
     public PaintForm()
     {
       InitializeComponent();
       toolsBar.ImageList = imageList;
       settings = (IPaintSettings)this;
+    }
 
-      mouseManager = new MouseEventManager();
+    private ImageFile imageFile;
+    private ToolArgs toolArgs;
+    private Tool curTool;
+    private void PaintForm_Load(object sender, EventArgs e)
+    {
+      FillFillStyleList();
+      FillShapeStyleList();
+      FillWidthList();
+      FillGradientStyleList();
+
+      // default texture brush image
+      brushImageBox.Image = new Bitmap(20, 20);
+
+      // default image
+      imageFile = new ImageFile(new Size(500, 500), Color.White);
+      ShowImage();
+    }
+
+    private void ShowImage()
+    {
+      string fileName = imageFile.FileName;
+      if (fileName == null)
+        fileName = "Untitled";
+      else
+        fileName = new FileInfo(fileName).Name;
+      Text = string.Format("Paint - [{0}]", fileName);
+
+      imageBox.ClientSize = imageFile.Bitmap.Size;
+      imageBox.Invalidate();
+      toolArgs = new ToolArgs(imageFile.Bitmap, imageBox, pointPanel1, pointPanel2, settings);
+
+      if (curTool != null)
+        curTool.UnloadTool();
+      curTool = new PointerTool(toolArgs);
+      SetToolBarButtonsState(arrowBtn);
+    }
+
+    #region ToolBar
+    private ToolController toolController;
+    public void SetToolController(ToolController toolController)
+    {
+      this.toolController = toolController;
     }
 
     private void toolsBar_ButtonClick(object sender, ToolBarButtonClickEventArgs e)
     {
       curTool.UnloadTool();
       ToolBarButton curButton = e.Button;
-
       SetToolBarButtonsState(curButton);
 
-      ToolController toolController = new ToolController(toolArgs, mouseManager);
-      toolController.ButtonClicked(curButton.Name);
-
+      toolController.toolArgs = toolArgs;
+      if (toolController != null)
+        toolController.ButtonClicked(curButton.Name);
+      else
+        throw new Exception("toolController == null");
     }
 
     private void SetToolBarButtonsState(ToolBarButton curButton)
@@ -50,7 +88,9 @@ namespace Paint
           btn.Pushed = false;
       }
     }
+    #endregion
 
+    #region imageBox
     private void imageBox_Paint(object sender, PaintEventArgs e)
     {
       //e.Graphics.DrawImageUnscaledAndClipped(imageFile.Bitmap, new Rectangle(new Point(0,0),imageFile.Bitmap.Size));
@@ -59,25 +99,9 @@ namespace Paint
       e.Graphics.DrawImageUnscaledAndClipped(b, clipRect);
       b.Dispose();
     }
+    #endregion
 
-    private void PaintForm_Load(object sender, EventArgs e)
-    {
-      FillFillStyleList();
-
-      FillShapeStyleList();
-
-      FillWidthList();
-
-      FillGradientStyleList();
-
-      // default texture brush image
-      brushImageBox.Image = new Bitmap(20, 20);
-
-      // default image
-      imageFile = new ImageFile(new Size(500, 500), Color.White);
-      ShowImage();
-    }
-
+    #region settingsPanel
     private void FillGradientStyleList()
     {
       for (int i = 0; i < 4; i++)
@@ -223,6 +247,12 @@ namespace Paint
         return brushImageBox.Image;
       }
     }
+    private void inverseLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      Color temp = primColorBox.BackColor;
+      primColorBox.BackColor = secColorBox.BackColor;
+      secColorBox.BackColor = temp;
+    }
 
     private void ColorBox_Click(object sender, EventArgs e)
     {
@@ -237,19 +267,6 @@ namespace Paint
       }
     }
 
-    private void inverseLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-    {
-      Color temp = primColorBox.BackColor;
-      primColorBox.BackColor = secColorBox.BackColor;
-      secColorBox.BackColor = temp;
-    }
-
-    private void imageClearMnu_Click(object sender, EventArgs e)
-    {
-      Graphics.FromImage(imageFile.Bitmap).Clear(settings.SecondaryColor);
-      imageBox.Invalidate();
-    }
-
     private void brushImageBox_Click(object sender, EventArgs e)
     {
       MessageBox.Show(imgContainer.DisplayRectangle.ToString());
@@ -260,7 +277,14 @@ namespace Paint
         brushImageBox.Image = Image.FromFile(openDlg.FileName);
       }
     }
+    #endregion
 
+    #region menu
+    private void imageClearMnu_Click(object sender, EventArgs e)
+    {
+      Graphics.FromImage(imageFile.Bitmap).Clear(settings.SecondaryColor);
+      imageBox.Invalidate();
+    }
     private void editCutMnu_Click(object sender, EventArgs e)
     {
       curTool.UnloadTool();
@@ -342,25 +366,6 @@ namespace Paint
       Application.Exit();
     }
 
-    private void ShowImage()
-    {
-      string fileName = imageFile.FileName;
-      if (fileName == null)
-        fileName = "Untitled";
-      else
-        fileName = new FileInfo(fileName).Name;
-      Text = string.Format("Paint - [{0}]", fileName);
-
-      imageBox.ClientSize = imageFile.Bitmap.Size;
-      imageBox.Invalidate();
-      toolArgs = new ToolArgs(imageFile.Bitmap, imageBox, pointPanel1, pointPanel2, settings);
-
-      if (curTool != null)
-        curTool.UnloadTool();
-      curTool = new PointerTool(toolArgs);
-      SetToolBarButtonsState(arrowBtn);
-    }
-
     private void Blur_Blur_Click(object sender, EventArgs e)
     {
       FilterDialog fDialog = new FilterDialog("Gaussian Blur", new List<string>(new string[] { "Sigma", "Size" }));
@@ -413,6 +418,6 @@ namespace Paint
       bitmap.UnlockBits(bData);
 
     }
+    #endregion
   }
-
 }

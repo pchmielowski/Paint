@@ -51,7 +51,7 @@ namespace Paint
     }
   }
 
-  class MouseEventManager
+  public class MouseEventManager
   {
     private Tool tool_;
     private ToolArgs toolSettings;

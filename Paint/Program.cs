@@ -6,14 +6,18 @@ using System.Windows.Forms;
 
 namespace Paint
 {
-    static class Program
+  static class Program
+  {
+    [STAThread]
+    static void Main()
     {
-        [STAThread]
-        static void Main()
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PaintForm());
-        }
+      Application.EnableVisualStyles();
+      Application.SetCompatibleTextRenderingDefault(false);
+
+      PaintForm mainView = new PaintForm();
+      ToolController toolController = new ToolController(mainView);
+
+      Application.Run(mainView);
     }
+  }
 }

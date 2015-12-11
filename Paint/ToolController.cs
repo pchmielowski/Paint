@@ -2,14 +2,17 @@
 
 namespace Paint
 {
-  class ToolController
+  public class ToolController
   {
-    private ToolArgs toolArgs;
+    public ToolArgs toolArgs;
+    private PaintForm view;
     private MouseEventManager mouseManager;
-    public ToolController(ToolArgs toolArgs, MouseEventManager mouseManager)
+    public ToolController(PaintForm view)
     {
-      this.toolArgs = toolArgs;
-      this.mouseManager = mouseManager;
+      this.view = view;
+      view.SetToolController(this);
+
+      mouseManager = new MouseEventManager();
     }
 
     private Tool curTool;
