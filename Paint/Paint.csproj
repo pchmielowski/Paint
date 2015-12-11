@@ -150,6 +150,7 @@
     <Compile Include="FilterDialog.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="MouseManager.cs" />
+    <Compile Include="ToolController.cs" />
     <Compile Include="Tools\PointerTool.cs" />
     <Compile Include="Tools\BrushTool.cs" />
     <Compile Include="Tools\ClipboardTool.cs" />
@@ -174,10 +175,10 @@
     </Compile>
     <Compile Include="Tools\TextTool.cs" />
     <Compile Include="ToolArgs.cs" />
-    <Compile Include="PaintForm.cs">
+    <Compile Include="View\PaintForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PaintForm.Designer.cs">
+    <Compile Include="View\PaintForm.Designer.cs">
       <DependentUpon>PaintForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -186,7 +187,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>NewDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PaintForm.resx">
+    <EmbeddedResource Include="View\PaintForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PaintForm.cs</DependentUpon>
     </EmbeddedResource>
