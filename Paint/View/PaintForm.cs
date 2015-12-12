@@ -36,11 +36,10 @@ namespace Paint
       brushImageBox.Image = new Bitmap(20, 20);
 
       // default image
-      imageFile = new ImageFile(new Size(500, 500), Color.White);
-      ShowImage();
+      ShowImage(new ImageFile(new Size(500, 500), Color.White));
     }
 
-    private void ShowImage()
+    public void ShowImage(ImageFile imageFile)
     {
       string fileName = imageFile.FileName;
       if (fileName == null)
@@ -280,143 +279,65 @@ namespace Paint
     #endregion
 
     #region menu
+    private MenuController menuController;
+    public void SetMenuController(MenuController menuController)
+    {
+      this.menuController = menuController;
+    }
+
     private void imageClearMnu_Click(object sender, EventArgs e)
     {
-      Graphics.FromImage(imageFile.Bitmap).Clear(settings.SecondaryColor);
-      imageBox.Invalidate();
+      menuController.ClearImage(imageFile.Bitmap, settings.SecondaryColor, imageBox);
     }
+
     private void editCutMnu_Click(object sender, EventArgs e)
     {
-      curTool.UnloadTool();
-      //curTool = new ClipboardTool(toolArgs, ClipboardAction.Cut);
-      SetToolBarButtonsState(arrowBtn);
+      menuController.Cut();
     }
 
     private void editCopyMnu_Click(object sender, EventArgs e)
     {
-      curTool.UnloadTool();
-      //curTool = new ClipboardTool(toolArgs, ClipboardAction.Copy);
-      SetToolBarButtonsState(arrowBtn);
+      menuController.Copy();
     }
 
     private void editPasteMnu_Click(object sender, EventArgs e)
     {
-      curTool.UnloadTool();
-      //curTool = new ClipboardTool(toolArgs, ClipboardAction.Paste);
-      SetToolBarButtonsState(arrowBtn);
+      menuController.Paste();
     }
 
     private void fileNewMnu_Click(object sender, EventArgs e)
     {
-      NewDialog newDlg = new NewDialog();
-      if (newDlg.ShowDialog() == DialogResult.OK)
-      {
-        imageFile = new ImageFile(newDlg.ImageSize, newDlg.imageBackColor);
-        ShowImage();
-      }
+      menuController.FileNew();
     }
 
     private void fileOpenMnu_Click(object sender, EventArgs e)
     {
-      OpenFileDialog fileDialog = new OpenFileDialog();
-      fileDialog.Filter = "Image Files .BMP .JPG .GIF .Png|*.BMP;*.JPG;*.GIF;*.PNG";
-      if (fileDialog.ShowDialog() == DialogResult.OK)
-      {
-        if (imageFile.Open(fileDialog.FileName))
-        {
-          ShowImage();
-        }
-        else
-        {
-          MessageBox.Show("Error");
-        }
-      }
+      menuController.FileOpen();
     }
 
     private void fileSaveMnu_Click(object sender, EventArgs e)
     {
-      if (imageFile.FileName != null)
-      {
-        if (!imageFile.Save(imageFile.FileName))
-          MessageBox.Show("Error");
-        else
-          ShowImage();
-      }
-      else
-      {
-        fileSaveAsMnu_Click(sender, e);
-      }
+      menuController.FileSave();
     }
 
     private void fileSaveAsMnu_Click(object sender, EventArgs e)
     {
-      SaveFileDialog saveDlg = new SaveFileDialog();
-      saveDlg.Filter = "Bitmap (*.BMP)|*.BMP";
-      if (saveDlg.ShowDialog() == DialogResult.OK)
-      {
-        if (!imageFile.Save(saveDlg.FileName))
-          MessageBox.Show("Error");
-        else
-          ShowImage();
-      }
+      menuController.FileSaveAs();
     }
 
     private void fileExitMnu_Click(object sender, EventArgs e)
     {
-      Application.Exit();
+      menuController.FileExit();
     }
 
     private void Blur_Blur_Click(object sender, EventArgs e)
     {
-      FilterDialog fDialog = new FilterDialog("Gaussian Blur", new List<string>(new string[] { "Sigma", "Size" }));
-      BlurImage((double)fDialog.inputBoxes["Sigma"].Value, (int)fDialog.inputBoxes["Size"].Value);
-    }
-
-    private void BlurImage(double sigma, int size)
-    {
-      AForge.Imaging.Filters.GaussianBlur filter = new AForge.Imaging.Filters.GaussianBlur(sigma, size);
-      Bitmap image = toolArgs.bitmap;
-      filter.ApplyInPlace(image);
-      toolArgs.pictureBox.Invalidate();
+      menuController.BlurBlur(toolArgs);
     }
 
     private void Monochrome_Click(object sender, EventArgs e)
     {
-
-      DesaturateImage(toolArgs.bitmap);
-      Class1 c = new Class1();
-      c.doDesaturate(toolArgs.bitmap);
-      toolArgs.pictureBox.Invalidate();
-    }
-
-    private unsafe void DesaturateImage(Bitmap bitmap)
-    {
-      Rectangle bRect = new Rectangle(new System.Drawing.Point(0, 0), bitmap.Size);
-      BitmapData bData = toolArgs.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, bitmap.PixelFormat);
-
-      int height = bitmap.Size.Height;
-      int width = bitmap.Size.Width;
-      int pixelSize = bData.Stride / bData.Width;
-
-      for (int x = 0; x < 0; x++)
-      {
-        for (int y = 0; y < 0; y++)
-        {
-          byte* pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
-          byte value = 0;
-          const int NUM_CHANNELS = 3;
-          for (int channelIdx = 0; channelIdx < NUM_CHANNELS; ++channelIdx)
-          {
-            value += (byte)(*pixelBaseAddress++ / NUM_CHANNELS);
-          }
-          pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
-
-          Class1 c = new Class1();
-          c.desaturate(NUM_CHANNELS, pixelBaseAddress, value);
-        }
-      }
-      bitmap.UnlockBits(bData);
-
+      menuController.ImageMonochrome(toolArgs);
     }
     #endregion
   }

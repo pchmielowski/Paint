@@ -150,6 +150,7 @@
     <Compile Include="FilterDialog.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="MouseManager.cs" />
+    <Compile Include="ToolBarImages\MenuController.cs" />
     <Compile Include="ToolController.cs" />
     <Compile Include="Tools\PointerTool.cs" />
     <Compile Include="Tools\BrushTool.cs" />
@@ -252,6 +253,9 @@
       <Project>{5d4eace4-90ae-4aa8-9f30-79177414a7aa}</Project>
       <Name>ImageDesaturator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
