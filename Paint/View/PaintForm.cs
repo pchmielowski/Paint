@@ -3,23 +3,30 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.IO;
-using System.Drawing.Imaging;
-using System.Collections.Generic;
 
-
-using ImageDesaturator;
+/*  If they're nested, the DocumentView contains a DocumentSelectionView 
+    (could be a uses-a relationship, not a has-a relationship). 
+    The DocumentView has GUI controls that provide a means for gestures 
+    (mouse click, keyboard accelerators, voice command..?) to Execute a Command 
+    (see Command pattern) that is observed by the DocumentController. 
+    The DocumentSelectionView's GUI controls have Commands for the DocumentSelectionController.
+    All of the views are active (visible); all of the associated controllers are ready 
+    to observe Command Executions, then update the Model, thus updating the View(s).
+*/
 
 namespace Paint
 {
   public partial class PaintForm : Form, IPaintSettings
   {
     private IPaintSettings settings;
-
+    public IToolBarView toolBarView;
     public PaintForm()
     {
       InitializeComponent();
       toolsBar.ImageList = imageList;
       settings = (IPaintSettings)this;
+
+      toolBarView = toolBarUserControll;
     }
 
     private ImageFile imageFile;

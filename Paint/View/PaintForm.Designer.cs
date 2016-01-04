@@ -50,6 +50,8 @@
       this.pointPanel1 = new System.Windows.Forms.StatusBarPanel();
       this.pointPanel2 = new System.Windows.Forms.StatusBarPanel();
       this.imgContainer = new System.Windows.Forms.Panel();
+      this.toolBarUserControll = new Paint.View.ToolBarUserControl();
+      this.toolStrip1 = new System.Windows.Forms.ToolStrip();
       this.imageBox = new System.Windows.Forms.PictureBox();
       this.toolSettingsPanel = new System.Windows.Forms.Panel();
       this.brushImageBox = new System.Windows.Forms.PictureBox();
@@ -232,7 +234,7 @@
       // 
       // statusBar
       // 
-      this.statusBar.Location = new System.Drawing.Point(0, 422);
+      this.statusBar.Location = new System.Drawing.Point(0, 401);
       this.statusBar.Name = "statusBar";
       this.statusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.pointPanel1,
@@ -257,12 +259,29 @@
       // 
       this.imgContainer.AutoScroll = true;
       this.imgContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.imgContainer.Controls.Add(this.toolBarUserControll);
+      this.imgContainer.Controls.Add(this.toolStrip1);
       this.imgContainer.Controls.Add(this.imageBox);
       this.imgContainer.Dock = System.Windows.Forms.DockStyle.Fill;
       this.imgContainer.Location = new System.Drawing.Point(30, 61);
       this.imgContainer.Name = "imgContainer";
-      this.imgContainer.Size = new System.Drawing.Size(709, 361);
+      this.imgContainer.Size = new System.Drawing.Size(709, 340);
       this.imgContainer.TabIndex = 3;
+      // 
+      // toolBarUserControll1
+      // 
+      this.toolBarUserControll.Location = new System.Drawing.Point(-5, -2);
+      this.toolBarUserControll.Name = "toolBarUserControll1";
+      this.toolBarUserControll.Size = new System.Drawing.Size(24, 360);
+      this.toolBarUserControll.TabIndex = 5;
+      // 
+      // toolStrip1
+      // 
+      this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+      this.toolStrip1.Name = "toolStrip1";
+      this.toolStrip1.Size = new System.Drawing.Size(688, 25);
+      this.toolStrip1.TabIndex = 1;
+      this.toolStrip1.Text = "toolStrip1";
       // 
       // imageBox
       // 
@@ -524,7 +543,7 @@
       this.toolsBar.MinimumSize = new System.Drawing.Size(30, 0);
       this.toolsBar.Name = "toolsBar";
       this.toolsBar.ShowToolTips = true;
-      this.toolsBar.Size = new System.Drawing.Size(30, 361);
+      this.toolsBar.Size = new System.Drawing.Size(30, 340);
       this.toolsBar.TabIndex = 2;
       this.toolsBar.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolsBar_ButtonClick);
       // 
@@ -532,7 +551,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(739, 444);
+      this.ClientSize = new System.Drawing.Size(739, 423);
       this.Controls.Add(this.imgContainer);
       this.Controls.Add(this.toolsBar);
       this.Controls.Add(this.statusBar);
@@ -544,6 +563,7 @@
       ((System.ComponentModel.ISupportInitialize)(this.pointPanel1)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.pointPanel2)).EndInit();
       this.imgContainer.ResumeLayout(false);
+      this.imgContainer.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.imageBox)).EndInit();
       this.toolSettingsPanel.ResumeLayout(false);
       this.toolSettingsPanel.PerformLayout();
@@ -611,6 +631,8 @@
     private System.Windows.Forms.ToolBarButton lineBtn;
     private System.Windows.Forms.ToolBarButton arrowBtn;
     private System.Windows.Forms.ToolBar toolsBar;
+    private System.Windows.Forms.ToolStrip toolStrip1;
+    private View.ToolBarUserControl toolBarUserControll;
   }
 }
 
