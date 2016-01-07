@@ -30,7 +30,7 @@ namespace Paint
   {
     SolidBrush,
     TextureBrush,
-    GradiantBrush,
+    GradientBrush,
     HatchBrush
   }
 }

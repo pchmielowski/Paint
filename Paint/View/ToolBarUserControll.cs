@@ -11,12 +11,23 @@ namespace Paint.View
     }
 
     public event ToolBarButtonClicked ButtonClicked;
-
     private void toolsBar_ButtonClick(object sender, ToolBarButtonClickEventArgs e)
     {
-      // SetToolBarButtonsState()
+      SetButtonsState(e.Button);
 
-      ButtonClicked(e.Button.Name);
+      if (ButtonClicked != null)
+        ButtonClicked(e.Button.Name);
+    }
+
+
+    private void SetButtonsState(ToolBarButton curButton)
+    {
+      curButton.Pushed = true;
+      foreach (ToolBarButton btn in toolsBar.Buttons)
+      {
+        if (btn != curButton)
+          btn.Pushed = false;
+      }
     }
   }
 }

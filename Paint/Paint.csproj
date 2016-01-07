@@ -151,9 +151,9 @@
     <Compile Include="FilterDialog.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="Style.cs" />
-    <Compile Include="MouseManager.cs" />
-    <Compile Include="ToolBarImages\MenuController.cs" />
-    <Compile Include="ToolController.cs" />
+    <Compile Include="Controllers\PictureController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="StyleFactory.cs" />
     <Compile Include="Tools\PointerTool.cs" />
     <Compile Include="Tools\BrushTool.cs" />
     <Compile Include="Tools\ClipboardTool.cs" />
@@ -177,7 +177,7 @@
       <DependentUpon>TextDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\TextTool.cs" />
-    <Compile Include="ToolArgs.cs" />
+    <Compile Include="View\IPictureView.cs" />
     <Compile Include="View\IToolBarView.cs" />
     <Compile Include="View\PaintForm.cs">
       <SubType>Form</SubType>
@@ -187,7 +187,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\ToolBarUserControll.cs" />
+    <Compile Include="View\ToolBarUserControll.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="View\ToolBarUserControll.Designer.cs">
       <DependentUpon>ToolBarUserControll.cs</DependentUpon>
     </Compile>

@@ -14,11 +14,10 @@ namespace Paint
 
     private TextureBrush delBrush;
 
-    public LineTool(ToolArgs args)
-      : base(args)
+    public LineTool()
     {
       drawing = false;
-      args.pictureBox.Cursor = Cursors.Cross;
+      //args.pictureBox.Cursor = Cursors.Cross;
     }
 
     public override void StopDrawing(MouseEventArgs e)
@@ -27,7 +26,7 @@ namespace Paint
       {
         drawing = false;
 
-        args.pictureBox.Invalidate();
+        //args.pictureBox.Invalidate();
 
         // free resources
         pen.Dispose();
@@ -43,26 +42,26 @@ namespace Paint
         ClearOldShape(delBrush);
 
         g.DrawLine(pen, beginingPosition, e.Location);
-        args.pictureBox.Invalidate();
+        //args.pictureBox.Invalidate();
       }
     }
 
     public override void StartDrawing(MouseEventArgs e, IStyle brushManager)
     {
-      drawing = true;
-      beginingPosition = e.Location;
+      //drawing = true;
+      //beginingPosition = e.Location;
 
-      g = Graphics.FromImage(args.bitmap);
+      //g = Graphics.FromImage(args.bitmap);
 
-      pen = new Pen(GetBrush(false), args.settings.Width);
-      pen.DashStyle = args.settings.LineStyle;
+      //pen = new Pen(GetBrush(false), args.settings.Width);
+      //pen.DashStyle = args.settings.LineStyle;
 
-      delBrush = new TextureBrush(args.bitmap);
+      //delBrush = new TextureBrush(args.bitmap);
     }
 
     public override void UnloadTool()
     {
-      args.pictureBox.Cursor = Cursors.Default;
+      //args.pictureBox.Cursor = Cursors.Default;
     }
   }
 }

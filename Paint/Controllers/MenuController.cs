@@ -102,51 +102,51 @@ namespace Paint
     }
 
 
-    internal void BlurBlur(ToolArgs toolArgs)
+    internal void BlurBlur() { }
+    //{
+    //  FilterDialog fDialog =
+    //        new FilterDialog("Gaussian Blur", new List<string>(new string[] { "Sigma", "Size" }));
+    //  BlurImage((double)fDialog.inputBoxes["Sigma"].Value, (int)fDialog.inputBoxes["Size"].Value, toolArgs);
+
+
+    private void BlurImage(double sigma, int size)
     {
-      FilterDialog fDialog =
-            new FilterDialog("Gaussian Blur", new List<string>(new string[] { "Sigma", "Size" }));
-      BlurImage((double)fDialog.inputBoxes["Sigma"].Value, (int)fDialog.inputBoxes["Size"].Value, toolArgs);
+      //AForge.Imaging.Filters.GaussianBlur filter = new AForge.Imaging.Filters.GaussianBlur(sigma, size);
+      //Bitmap image = toolArgs.bitmap;
+      //filter.ApplyInPlace(image);
+      //toolArgs.pictureBox.Invalidate();
     }
 
-    private void BlurImage(double sigma, int size, ToolArgs toolArgs)
+    internal void ImageMonochrome()
     {
-      AForge.Imaging.Filters.GaussianBlur filter = new AForge.Imaging.Filters.GaussianBlur(sigma, size);
-      Bitmap image = toolArgs.bitmap;
-      filter.ApplyInPlace(image);
-      toolArgs.pictureBox.Invalidate();
+
+      DesaturateImage(/*toolArgs*/);
+      //toolArgs.pictureBox.Invalidate();
     }
-
-    internal void ImageMonochrome(ToolArgs toolArgs)
+    private unsafe void DesaturateImage()
     {
+      //Rectangle bRect = new Rectangle(new System.Drawing.Point(0, 0), toolArgs.bitmap.Size);
+      //BitmapData bData = toolArgs.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, toolArgs.bitmap.PixelFormat);
 
-      DesaturateImage(toolArgs);
-      toolArgs.pictureBox.Invalidate();
-    }
-    private unsafe void DesaturateImage(ToolArgs toolArgs)
-    {
-      Rectangle bRect = new Rectangle(new System.Drawing.Point(0, 0), toolArgs.bitmap.Size);
-      BitmapData bData = toolArgs.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, toolArgs.bitmap.PixelFormat);
+      //int height = toolArgs.bitmap.Size.Height;
+      //int width = toolArgs.bitmap.Size.Width;
+      //int pixelSize = bData.Stride / bData.Width;
 
-      int height = toolArgs.bitmap.Size.Height;
-      int width = toolArgs.bitmap.Size.Width;
-      int pixelSize = bData.Stride / bData.Width;
-
-      for (int x = 0; x < 0; x++)
-      {
-        for (int y = 0; y < 0; y++)
-        {
-          byte* pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
-          byte value = 0;
-          const int NUM_CHANNELS = 3;
-          for (int channelIdx = 0; channelIdx < NUM_CHANNELS; ++channelIdx)
-          {
-            value += (byte)(*pixelBaseAddress++ / NUM_CHANNELS);
-          }
-          pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
-        }
-      }
-      toolArgs.bitmap.UnlockBits(bData);
+      //for (int x = 0; x < 0; x++)
+      //{
+      //  for (int y = 0; y < 0; y++)
+      //  {
+      //    byte* pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
+      //    byte value = 0;
+      //    const int NUM_CHANNELS = 3;
+      //    for (int channelIdx = 0; channelIdx < NUM_CHANNELS; ++channelIdx)
+      //    {
+      //      value += (byte)(*pixelBaseAddress++ / NUM_CHANNELS);
+      //    }
+      //    pixelBaseAddress = (byte*)bData.Scan0 + (y * bData.Stride) + (x * pixelSize);
+      //  }
+      //}
+      //toolArgs.bitmap.UnlockBits(bData);
     }
   }
 }

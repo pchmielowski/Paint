@@ -1,12 +1,36 @@
-﻿using System;
+﻿using Paint.View;
+using System.Drawing;
 
 namespace Paint.Model
 {
-  public class ToolModel
+  public class PaintModel
   {
-    internal void UpdateTool(Tool chosenTool)
+    private Tool _tool;
+    public Tool tool
     {
-      throw new NotImplementedException();
+      get { return _tool; }
+      set
+      {
+        _tool = value;
+        _tool.model = this;
+      }
+    }
+    public IPictureView pictureView;
+    public ImageFile imageFile;
+    public PaintSettings settings = new PaintSettings();
+
+    public PaintModel()
+    {
+      imageFile = new ImageFile(new Size(500, 500), Color.White);
+      settings.BrushType = BrushType.SolidBrush;
+      settings.DrawMode = DrawMode.Mixed;
+      settings.PrimaryColor = Color.BlueViolet;
+      settings.SecondaryColor = Color.Chartreuse;
+    }
+
+    public void ShowImageOnView()
+    {
+      pictureView.ShowImage(imageFile);
     }
   }
 }

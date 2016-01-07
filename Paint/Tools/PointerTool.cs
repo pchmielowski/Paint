@@ -8,10 +8,9 @@ namespace Paint
 {
   public class PointerTool : Tool
   {
-    public PointerTool(ToolArgs args)
-      : base(args)
+    public PointerTool()
     {
-      args.pictureBox.Cursor = Cursors.Arrow;
+      //args.pictureBox.Cursor = Cursors.Arrow;
     }
 
     public override void UpdateMousePosition(MouseEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Paint.Model;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
@@ -7,27 +8,25 @@ namespace Paint
   public class ShapeTool : Tool
   {
     ShapeCreator shapeCreator;
-    public ShapeTool(ToolArgs args, ShapeCreator shapeCreator)
-        : base(args)
+    public ShapeTool(ShapeCreator shapeCreator)
     {
       inDrawingState_ = false;
       this.shapeCreator = shapeCreator;
     }
-
     protected bool inDrawingState_;
     protected Point startLocation_;
     private TextureBrush brushSavedState_;
     private IStyle style;
     public override void StartDrawing(MouseEventArgs e, IStyle style)
     {
-      g = Graphics.FromImage(args.bitmap);
+      g = Graphics.FromImage(model.imageFile.Bitmap);
 
       this.style = style;
 
       inDrawingState_ = true;
       startLocation_ = e.Location;
 
-      brushSavedState_ = new TextureBrush(args.bitmap);
+      brushSavedState_ = new TextureBrush(model.imageFile.Bitmap);
     }
 
     public override void UpdateMousePosition(MouseEventArgs e)
@@ -41,14 +40,14 @@ namespace Paint
       GraphicsPath shape = shapeCreator.CreateShape(rectangle);
 
       style.DrawOnGraphics(shape, g);
-      args.pictureBox.Invalidate();
+      model.pictureView.PictureBox.Invalidate();
     }
 
     public override void StopDrawing(MouseEventArgs e)
     {
       if (inDrawingState_)
       {
-        args.pictureBox.Invalidate();
+        model.pictureView.PictureBox.Invalidate();
         inDrawingState_ = false;
         brushSavedState_.Dispose();
         g.Dispose();
@@ -57,7 +56,7 @@ namespace Paint
 
     public override void UnloadTool()
     {
-      args.pictureBox.Cursor = Cursors.Arrow;
+      //args.pictureBox.Cursor = Cursors.Arrow;
     }
   }
 

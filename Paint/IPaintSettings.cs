@@ -5,51 +5,24 @@ using System.Windows.Forms;
 
 namespace Paint
 {
-    public interface IPaintSettings
-    {
-        DrawMode DrawMode
-        {
-            get;
-        }
+  public class PaintSettings
+  {
+    public DrawMode DrawMode;
 
-        int Width
-        {
-            get;
-        }
+    public int Width;
 
-        LinearGradientMode GradientOrientation
-        {
-            get;
-        }
+    public LinearGradientMode GradientOrientation;
 
-        Color PrimaryColor
-        {
-            get;
-        }
+    public Color PrimaryColor;
 
-        Color SecondaryColor
-        {
-            get;
-        }
+    public Color SecondaryColor;
 
-        BrushType BrushType
-        {
-            get;
-        }
+    public BrushType BrushType;
 
-        HatchStyle HatchStyle
-        {
-            get;
-        }
+    public HatchStyle HatchStyle;
 
-        DashStyle LineStyle
-        {
-            get;
-        }
+    public DashStyle LineStyle;
 
-        Image TextureBrushImage
-        {
-            get;
-        }
-    }
+    public Image TextureBrushImage;
+  }
 }

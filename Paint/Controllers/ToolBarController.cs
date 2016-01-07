@@ -4,14 +4,15 @@ namespace Paint
 {
   public class ToolBarController
   {
-    private ToolModel toolModel;
     private IToolBarView toolBarView;
+    private PaintModel model;
 
-    public ToolBarController(ToolModel toolModel, IToolBarView toolBarView)
+    public ToolBarController(PaintModel model, IToolBarView toolBarView)
     {
-      this.toolModel = toolModel;
+      this.model = model;
       this.toolBarView = toolBarView;
-      toolBarView.ButtonClicked += OnButtonClick;
+
+      this.toolBarView.ButtonClicked += OnButtonClick;
     }
 
     private void OnButtonClick(string toolName)
@@ -29,7 +30,7 @@ namespace Paint
       {
         ShapeCreator shapeCreator = new RectangleCreator();
         //toolArgs.pictureBox.Cursor = Cursors.Cross;
-        //chosenTool = new ShapeTool(toolArgs, shapeCreator);
+        chosenTool = new ShapeTool(shapeCreator);
       }
       else if (toolName == "pencilBtn")
       {
@@ -43,7 +44,7 @@ namespace Paint
       {
         ShapeCreator shapeCreator = new ElipseCreator();
         //toolArgs.pictureBox.Cursor = Cursors.Cross;
-        //chosenTool = new ShapeTool(toolArgs, shapeCreator);
+        chosenTool = new ShapeTool(shapeCreator);
       }
       else if (toolName == "textBtn")
       {
@@ -58,7 +59,7 @@ namespace Paint
         //chosenTool = new BrushTool(toolArgs, BrushToolType.Eraser);
       }
 
-      toolModel.UpdateTool(chosenTool);
+      model.tool = chosenTool;
     }
   }
 }

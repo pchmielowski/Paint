@@ -1,18 +1,13 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using Paint.Model;
 
 namespace Paint
 {
   public abstract class Tool
   {
-    protected ToolArgs args;
     protected Graphics g;
-
-    public Tool(ToolArgs args)
-    {
-      this.args = args;
-    }
 
     protected Rectangle GetRectangleFromPoints(Point p1, Point p2)
     {
@@ -39,51 +34,10 @@ namespace Paint
       }
       return rect;
     }
-
+    public PaintModel model;
     public abstract void StopDrawing(MouseEventArgs e);
     public abstract void UpdateMousePosition(MouseEventArgs e);
     public abstract void StartDrawing(MouseEventArgs e, IStyle brushManager);
-
-    protected Brush GetBrush(bool inverseColors) // TODO delete
-    {
-      Color c1, c2;
-
-      if (inverseColors)
-      {
-        c1 = args.settings.SecondaryColor;
-        c2 = args.settings.PrimaryColor;
-      }
-      else
-      {
-        c1 = args.settings.PrimaryColor;
-        c2 = args.settings.SecondaryColor;
-      }
-
-      Brush brush = null;
-      switch (args.settings.BrushType)
-      {
-      case BrushType.SolidBrush:
-        brush = new SolidBrush(c1);
-        break;
-
-      case BrushType.TextureBrush:
-        brush = new TextureBrush(args.settings.TextureBrushImage);
-        break;
-
-      case BrushType.GradiantBrush:
-        int w = args.settings.Width;
-        Rectangle tempRect = new Rectangle(0, 0, args.bitmap.Width, args.bitmap.Height);
-        brush = new LinearGradientBrush(tempRect,
-            c1, c2, args.settings.GradientOrientation);
-        break;
-
-      case BrushType.HatchBrush:
-        brush = new HatchBrush(args.settings.HatchStyle, c1, c2);
-        break;
-      }
-
-      return brush;
-    }
 
     public abstract void UnloadTool();
 

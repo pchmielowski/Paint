@@ -268,10 +268,10 @@
       this.imgContainer.Size = new System.Drawing.Size(709, 340);
       this.imgContainer.TabIndex = 3;
       // 
-      // toolBarUserControll1
+      // toolBarUserControll
       // 
       this.toolBarUserControll.Location = new System.Drawing.Point(-5, -2);
-      this.toolBarUserControll.Name = "toolBarUserControll1";
+      this.toolBarUserControll.Name = "toolBarUserControll";
       this.toolBarUserControll.Size = new System.Drawing.Size(24, 360);
       this.toolBarUserControll.TabIndex = 5;
       // 

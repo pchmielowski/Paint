@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.IO;
+using Paint.View;
 
 /*  If they're nested, the DocumentView contains a DocumentSelectionView 
     (could be a uses-a relationship, not a has-a relationship). 
@@ -16,21 +17,18 @@ using System.IO;
 
 namespace Paint
 {
-  public partial class PaintForm : Form, IPaintSettings
+  public partial class PaintForm : Form, IPictureView
   {
-    private IPaintSettings settings;
     public IToolBarView toolBarView;
     public PaintForm()
     {
       InitializeComponent();
       toolsBar.ImageList = imageList;
-      settings = (IPaintSettings)this;
 
       toolBarView = toolBarUserControll;
     }
 
     private ImageFile imageFile;
-    private ToolArgs toolArgs;
     private Tool curTool;
     private void PaintForm_Load(object sender, EventArgs e)
     {
@@ -39,13 +37,10 @@ namespace Paint
       FillWidthList();
       FillGradientStyleList();
 
-      // default texture brush image
       brushImageBox.Image = new Bitmap(20, 20);
-
-      // default image
-      ShowImage(new ImageFile(new Size(500, 500), Color.White));
     }
 
+    private Bitmap bitmap;
     public void ShowImage(ImageFile imageFile)
     {
       string fileName = imageFile.FileName;
@@ -57,32 +52,21 @@ namespace Paint
 
       imageBox.ClientSize = imageFile.Bitmap.Size;
       imageBox.Invalidate();
-      toolArgs = new ToolArgs(imageFile.Bitmap, imageBox, pointPanel1, pointPanel2, settings);
+      bitmap = imageFile.Bitmap;
 
       if (curTool != null)
         curTool.UnloadTool();
-      curTool = new PointerTool(toolArgs);
+      //curTool = new PointerTool(toolArgs);
       SetToolBarButtonsState(arrowBtn);
     }
 
     #region ToolBar
-    private ToolController toolController;
-    public void SetToolController(ToolController toolController)
-    {
-      this.toolController = toolController;
-    }
 
     private void toolsBar_ButtonClick(object sender, ToolBarButtonClickEventArgs e)
     {
       curTool.UnloadTool();
       ToolBarButton curButton = e.Button;
       SetToolBarButtonsState(curButton);
-
-      toolController.toolArgs = toolArgs;
-      if (toolController != null)
-        toolController.ButtonClicked(curButton.Name);
-      else
-        throw new Exception("toolController == null");
     }
 
     private void SetToolBarButtonsState(ToolBarButton curButton)
@@ -99,9 +83,8 @@ namespace Paint
     #region imageBox
     private void imageBox_Paint(object sender, PaintEventArgs e)
     {
-      //e.Graphics.DrawImageUnscaledAndClipped(imageFile.Bitmap, new Rectangle(new Point(0,0),imageFile.Bitmap.Size));
       Rectangle clipRect = e.ClipRectangle;
-      Bitmap b = toolArgs.bitmap.Clone(clipRect, toolArgs.bitmap.PixelFormat);
+      Bitmap b = bitmap.Clone(clipRect, bitmap.PixelFormat);
       e.Graphics.DrawImageUnscaledAndClipped(b, clipRect);
       b.Dispose();
     }
@@ -163,96 +146,105 @@ namespace Paint
       fillStyleCombo.SelectedIndex = 0;
     }
 
-    DrawMode IPaintSettings.DrawMode
+    //DrawMode IPaintSettings.DrawMode
+    //{
+    //  get
+    //  {
+    //    return (DrawMode)shapeStyleCombo.SelectedIndex;
+    //  }
+    //}
+
+    //int IPaintSettings.Width
+    //{
+    //  get
+    //  {
+    //    return Int32.Parse(widthCombo.Text);
+    //  }
+    //}
+
+    //LinearGradientMode IPaintSettings.GradientOrientation
+    //{
+    //  get
+    //  {
+    //    return (LinearGradientMode)gradientStyleCombo.SelectedIndex;
+    //  }
+    //}
+
+    //Color IPaintSettings.PrimaryColor
+    //{
+    //  get
+    //  {
+    //    return primColorBox.BackColor;
+    //  }
+    //}
+
+    //Color IPaintSettings.SecondaryColor
+    //{
+    //  get
+    //  {
+    //    return secColorBox.BackColor;
+    //  }
+    //}
+
+    //BrushType IPaintSettings.BrushType
+    //{
+    //  get
+    //  {
+    //    BrushType type;
+    //    int selIndex = fillStyleCombo.SelectedIndex;
+    //    switch (selIndex)
+    //    {
+    //    case 0:
+    //    case 1:
+    //    case 2:
+    //      type = (BrushType)selIndex;
+    //      break;
+    //    default:
+    //      type = BrushType.HatchBrush;
+    //      break;
+    //    }
+    //    return type;
+    //  }
+    //}
+
+    //HatchStyle IPaintSettings.HatchStyle
+    //{
+    //  get
+    //  {
+    //    int index = fillStyleCombo.SelectedIndex;
+    //    if (index < 3)
+    //      index = 0;
+    //    else
+    //      index -= 3;
+
+    //    return (HatchStyle)index;
+    //  }
+    //}
+
+    //DashStyle IPaintSettings.LineStyle
+    //{
+    //  get
+    //  {
+    //    return (DashStyle)lineStyleCombo.SelectedIndex;
+    //  }
+    //}
+
+    //Image IPaintSettings.TextureBrushImage
+    //{
+    //  get
+    //  {
+    //    return brushImageBox.Image;
+    //  }
+    //}
+
+    public PictureBox PictureBox
     {
       get
       {
-        return (DrawMode)shapeStyleCombo.SelectedIndex;
+        return imageBox;
       }
     }
 
-    int IPaintSettings.Width
-    {
-      get
-      {
-        return Int32.Parse(widthCombo.Text);
-      }
-    }
-
-    LinearGradientMode IPaintSettings.GradientOrientation
-    {
-      get
-      {
-        return (LinearGradientMode)gradientStyleCombo.SelectedIndex;
-      }
-    }
-
-    Color IPaintSettings.PrimaryColor
-    {
-      get
-      {
-        return primColorBox.BackColor;
-      }
-    }
-
-    Color IPaintSettings.SecondaryColor
-    {
-      get
-      {
-        return secColorBox.BackColor;
-      }
-    }
-
-    BrushType IPaintSettings.BrushType
-    {
-      get
-      {
-        BrushType type;
-        int selIndex = fillStyleCombo.SelectedIndex;
-        switch (selIndex)
-        {
-        case 0:
-        case 1:
-        case 2:
-          type = (BrushType)selIndex;
-          break;
-        default:
-          type = BrushType.HatchBrush;
-          break;
-        }
-        return type;
-      }
-    }
-
-    HatchStyle IPaintSettings.HatchStyle
-    {
-      get
-      {
-        int index = fillStyleCombo.SelectedIndex;
-        if (index < 3)
-          index = 0;
-        else
-          index -= 3;
-
-        return (HatchStyle)index;
-      }
-    }
-
-    DashStyle IPaintSettings.LineStyle
-    {
-      get
-      {
-        return (DashStyle)lineStyleCombo.SelectedIndex;
-      }
-    }
-
-    Image IPaintSettings.TextureBrushImage
-    {
-      get
-      {
-        return brushImageBox.Image;
-      }
-    }
     private void inverseLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
       Color temp = primColorBox.BackColor;
@@ -294,7 +286,7 @@ namespace Paint
 
     private void imageClearMnu_Click(object sender, EventArgs e)
     {
-      menuController.ClearImage(imageFile.Bitmap, settings.SecondaryColor, imageBox);
+      //menuController.ClearImage(imageFile.Bitmap, settings.SecondaryColor, imageBox);
     }
 
     private void editCutMnu_Click(object sender, EventArgs e)
@@ -339,12 +331,12 @@ namespace Paint
 
     private void Blur_Blur_Click(object sender, EventArgs e)
     {
-      menuController.BlurBlur(toolArgs);
+      menuController.BlurBlur();
     }
 
     private void Monochrome_Click(object sender, EventArgs e)
     {
-      menuController.ImageMonochrome(toolArgs);
+      menuController.ImageMonochrome();
     }
     #endregion
   }

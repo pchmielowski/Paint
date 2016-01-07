@@ -11,14 +11,13 @@ namespace Paint
     private int pixelSize;
     private BitmapData bData;
 
-    public FillTool(ToolArgs args)
-      : base(args)
+    public FillTool()
     {
-      args.pictureBox.Cursor = Cursors.Cross;
-      args.pictureBox.MouseClick += new MouseEventHandler(OnMouseClick);
+      //args.pictureBox.Cursor = Cursors.Cross;
+      //args.pictureBox.MouseClick += new MouseEventHandler(OnMouseClick);
 
-      Rectangle bRect = new Rectangle(new Point(0, 0), args.bitmap.Size);
-      bData = args.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, args.bitmap.PixelFormat);
+      //Rectangle bRect = new Rectangle(new Point(0, 0), args.bitmap.Size);
+      //bData = args.bitmap.LockBits(bRect, ImageLockMode.ReadWrite, args.bitmap.PixelFormat);
       // pixel size in bits = image width in bytes / image width in pixels
       pixelSize = bData.Stride / bData.Width;
     }
@@ -75,81 +74,81 @@ namespace Paint
 
     private void OnMouseClick(object sender, MouseEventArgs e)
     {
-      Rectangle bRect = new Rectangle(new Point(0, 0), args.bitmap.Size);
-      if (bRect.Contains(e.Location))
-      {
-        args.pictureBox.Cursor = Cursors.WaitCursor;
+      //Rectangle bRect = new Rectangle(new Point(0, 0), args.bitmap.Size);
+      //if (bRect.Contains(e.Location))
+      //{
+      //  args.pictureBox.Cursor = Cursors.WaitCursor;
 
-        Color oldColor = GetPixel(e.X, e.Y);
-        try
-        {
-          FloodFillScanlineStack(e.X, e.Y, args.settings.PrimaryColor, oldColor);
-        }
-        catch (Exception ex)
-        {
-          MessageBox.Show(ex.Message);
-        }
+      //  Color oldColor = GetPixel(e.X, e.Y);
+      //  try
+      //  {
+      //    FloodFillScanlineStack(e.X, e.Y, args.settings.PrimaryColor, oldColor);
+      //  }
+      //  catch (Exception ex)
+      //  {
+      //    MessageBox.Show(ex.Message);
+      //  }
 
-        args.pictureBox.Invalidate();
-        args.pictureBox.Cursor = Cursors.Cross;
-      }
+      //  args.pictureBox.Invalidate();
+      //  args.pictureBox.Cursor = Cursors.Cross;
+      //}
     }
 
     public override void UnloadTool()
     {
-      args.bitmap.UnlockBits(bData);
-      args.pictureBox.Cursor = Cursors.Default;
-      args.pictureBox.MouseClick -= new MouseEventHandler(OnMouseClick);
+      //args.bitmap.UnlockBits(bData);
+      //args.pictureBox.Cursor = Cursors.Default;
+      //args.pictureBox.MouseClick -= new MouseEventHandler(OnMouseClick);
     }
 
     private void FloodFillScanlineStack(int x, int y, Color newColor, Color oldColor)
     {
-      if (oldColor.ToArgb() == newColor.ToArgb())
-        return;
+      //if (oldColor.ToArgb() == newColor.ToArgb())
+      //  return;
 
-      int w = args.bitmap.Width;
-      int h = args.bitmap.Height;
-      PixelStack stack = new PixelStack(w, h);
+      //int w = args.bitmap.Width;
+      //int h = args.bitmap.Height;
+      //PixelStack stack = new PixelStack(w, h);
 
-      int y1;
-      bool spanLeft, spanRight;
+      //int y1;
+      //bool spanLeft, spanRight;
 
-      if (!stack.Push(x, y))
-        return;
+      //if (!stack.Push(x, y))
+      //  return;
 
-      while (stack.Pop(ref x, ref y))
-      {
-        y1 = y;
-        while (y1 >= 0 && GetPixel(x, y1) == oldColor)
-        {
-          y1--;
-        }
-        y1++;
-        spanLeft = spanRight = false;
-        while (y1 < h && GetPixel(x, y1) == oldColor)
-        {
-          SetPixel(x, y1, newColor);
-          if (!spanLeft && x > 0 && GetPixel(x - 1, y1) == oldColor)
-          {
-            if (!stack.Push(x - 1, y1)) return;
-            spanLeft = true; ;
-          }
-          else if (spanLeft && x > 0 && GetPixel(x - 1, y1) != oldColor)
-          {
-            spanLeft = false;
-          }
-          if (!spanRight && x < w - 1 && GetPixel(x + 1, y1) == oldColor)
-          {
-            if (!stack.Push(x + 1, y1)) return;
-            spanRight = true;
-          }
-          else if (spanRight && x < w - 1 && x < w && GetPixel(x + 1, y1) != oldColor)
-          {
-            spanRight = false;
-          }
-          y1++;
-        }
-      }
+      //while (stack.Pop(ref x, ref y))
+      //{
+      //  y1 = y;
+      //  while (y1 >= 0 && GetPixel(x, y1) == oldColor)
+      //  {
+      //    y1--;
+      //  }
+      //  y1++;
+      //  spanLeft = spanRight = false;
+      //  while (y1 < h && GetPixel(x, y1) == oldColor)
+      //  {
+      //    SetPixel(x, y1, newColor);
+      //    if (!spanLeft && x > 0 && GetPixel(x - 1, y1) == oldColor)
+      //    {
+      //      if (!stack.Push(x - 1, y1)) return;
+      //      spanLeft = true; ;
+      //    }
+      //    else if (spanLeft && x > 0 && GetPixel(x - 1, y1) != oldColor)
+      //    {
+      //      spanLeft = false;
+      //    }
+      //    if (!spanRight && x < w - 1 && GetPixel(x + 1, y1) == oldColor)
+      //    {
+      //      if (!stack.Push(x + 1, y1)) return;
+      //      spanRight = true;
+      //    }
+      //    else if (spanRight && x < w - 1 && x < w && GetPixel(x + 1, y1) != oldColor)
+      //    {
+      //      spanRight = false;
+      //    }
+      //    y1++;
+      //  }
+      //}
     }
 
     private class PixelStack
