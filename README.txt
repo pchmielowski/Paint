@@ -1,5 +1,7 @@
+A simple Paint in C#.
+Forked from Mohannad Alharthi.
 
-This is a very simple bitmap editor similar to Ms-Paint written in C#.
-It was a course project, and I thought I would share!
+Now is being refactored - just as a excercise for good design and clean code.
+Today it is a big mess inside ;) I'm planning to clean it in one-two monts.
 
-Mohannad Alharthi
+In the future I'll play with some image processing and pattern recognition stuff.
