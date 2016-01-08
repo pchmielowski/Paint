@@ -35,9 +35,9 @@ namespace Paint
       return rect;
     }
     public PaintModel model;
-    public abstract void StopDrawing(MouseEventArgs e);
-    public abstract void UpdateMousePosition(MouseEventArgs e);
-    public abstract void StartDrawing(MouseEventArgs e, IStyle brushManager);
+    public abstract void StopDrawing(Point location);
+    public abstract void UpdateMousePosition(Point location);
+    public abstract void StartDrawing(Point location, IStyle brushManager);
 
     protected void ClearTempShapes(Brush db)
     {

@@ -39,7 +39,7 @@ namespace Paint.Model
       IStyle brushManager = StyleFactory.createStyle(settings);
       if (drawingTool != null)
       {
-        drawingTool.StartDrawing(e, brushManager);
+        drawingTool.StartDrawing(e.Location, brushManager);
         inDrawingState = true;
       }
     }
@@ -49,7 +49,7 @@ namespace Paint.Model
       if (!inDrawingState || drawingTool == null)
         return;
 
-      drawingTool.UpdateMousePosition(e);
+      drawingTool.UpdateMousePosition(e.Location);
     }
 
     public void StopDrawing(MouseEventArgs e)
@@ -57,7 +57,7 @@ namespace Paint.Model
       if (!inDrawingState || drawingTool == null)
         return;
 
-      drawingTool.StopDrawing(e);
+      drawingTool.StopDrawing(e.Location);
       inDrawingState = false;
     }
   }

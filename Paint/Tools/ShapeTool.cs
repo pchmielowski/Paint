@@ -11,37 +11,35 @@ namespace Paint
       this.shapeCreator = shapeCreator;
     }
 
-    ShapeCreator shapeCreator;
-    private Point startLocation;
-    private TextureBrush pictureBeforeDrawing;
-    private IStyle style;
-
-    public override void StartDrawing(MouseEventArgs e, IStyle style)
+    public override void StartDrawing(Point location, IStyle style)
     {
       pictureBeforeDrawing = new TextureBrush(model.imageFile.Bitmap);
       pictureToDrawOn = Graphics.FromImage(model.imageFile.Bitmap);
 
       this.style = style;
 
-      startLocation = e.Location;
+      startLocation = location;
     }
-
-    public override void UpdateMousePosition(MouseEventArgs e)
+    public override void UpdateMousePosition(Point location)
     {
 
       ClearTempShapes(pictureBeforeDrawing);
 
-      GraphicsPath shape = shapeCreator.CreateShape(startLocation, e.Location);
+      GraphicsPath shape = shapeCreator.CreateShape(startLocation, location);
 
       style.DrawShapeOnGraphics(shape, pictureToDrawOn);
       model.pictureView.PictureBox.Invalidate();
     }
-
-    public override void StopDrawing(MouseEventArgs e)
+    public override void StopDrawing(Point location)
     {
       pictureBeforeDrawing.Dispose();
       pictureToDrawOn.Dispose();
     }
+
+    ShapeCreator shapeCreator;
+    private Point startLocation;
+    private TextureBrush pictureBeforeDrawing;
+    private IStyle style;
   }
 
   public abstract class ShapeCreator

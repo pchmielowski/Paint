@@ -1,59 +1,38 @@
-using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Paint
 {
   public class BrushTool : Tool
   {
-    protected bool isDrawingState_;
-    protected BrushToolType toolType;
-    protected Point previousPosition;
-    protected Pen penCfg_;
-
-    public BrushTool()
+    public override void StartDrawing(Point location, IStyle style)
     {
-      //toolType = type;
-      isDrawingState_ = false;
+      pictureToDrawOn = Graphics.FromImage(model.imageFile.Bitmap);
 
-      //args.pictureBox.Cursor = Cursors.Cross;
+      pen = preparePen();
 
+      startLocation = location;
     }
-
-    public override void StopDrawing(MouseEventArgs e)
+    public override void UpdateMousePosition(Point location)
     {
-      isDrawingState_ = false;
-      //args.pictureBox.Invalidate();
-
-      penCfg_.Dispose();
+      Point currentPosition = location;
+      pictureToDrawOn.DrawLine(pen, startLocation, currentPosition);
+      model.pictureView.PictureBox.Invalidate();
+      startLocation = currentPosition;
+    }
+    public override void StopDrawing(Point location)
+    {
+      pen.Dispose();
       pictureToDrawOn.Dispose();
     }
 
-    public override void UpdateMousePosition(MouseEventArgs e)
-    {
-      Point currentPosition = e.Location;
-      if (isDrawingState_)
-      {
-        pictureToDrawOn.DrawLine(penCfg_, previousPosition, currentPosition);
-        //args.pictureBox.Invalidate();
-        previousPosition = currentPosition;
-      }
-    }
-
-    public override void StartDrawing(MouseEventArgs e, IStyle brushManager)
-    {
-
-      isDrawingState_ = true;
-      previousPosition = e.Location;
-
-      penCfg_ = preparePen();
-
-      //g = Graphics.FromImage(args.bitmap);
-    }
+    protected Point startLocation;
+    protected Pen pen;
 
     private Pen preparePen()
     {
+      return new Pen(Color.DarkBlue, 5.0f);
+
       //Pen pen;
       //LineCap lineCap = LineCap.Round;
       //if (toolType == BrushToolType.FreeBrush)
@@ -70,8 +49,6 @@ namespace Paint
 
       //pen.Width = GetWidth();
       //return pen;
-
-      throw new Exception();
     }
 
     protected virtual int GetWidth()

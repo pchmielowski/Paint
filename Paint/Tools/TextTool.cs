@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Paint
 {
@@ -9,14 +10,14 @@ namespace Paint
       //args.pictureBox.Cursor = Cursors.Cross;
     }
 
-    public override void UpdateMousePosition(MouseEventArgs e)
+    public override void UpdateMousePosition(Point location)
     {
     }
-    public override void StartDrawing(MouseEventArgs e, IStyle brushManager)
+    public override void StartDrawing(Point location, IStyle brushManager)
     {
     }
 
-    public override void StopDrawing(MouseEventArgs e)
+    public override void StopDrawing(Point location)
     {
       //TextDialog textDlg = new TextDialog();
       //if (textDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)

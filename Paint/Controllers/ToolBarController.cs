@@ -38,7 +38,7 @@ namespace Paint.Controllers
       }
       else if (toolName == "brushBtn")
       {
-        //chosenTool = new BrushTool(toolArgs, BrushToolType.FreeBrush);
+        chosenTool = new BrushTool();
       }
       else if (toolName == "ellipseBtn")
       {
