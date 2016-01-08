@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Paint.Model;
-using Paint.View;
+using Paint.Controllers;
 
 namespace Paint
 {
@@ -13,11 +13,11 @@ namespace Paint
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
 
-      PaintForm mainView = new PaintForm();
-
       PaintModel model = new PaintModel();
+
+      PaintForm mainView = new PaintForm();
       PictureController pictureController =
-          new PictureController(model, (IPictureView)mainView);
+          new PictureController(model, mainView);
 
       ToolBarController toolBarController =
           new ToolBarController(model, mainView.toolBarView);

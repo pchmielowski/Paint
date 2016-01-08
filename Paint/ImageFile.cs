@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Paint
 {
@@ -29,7 +27,6 @@ namespace Paint
         {
             try
             {
-                //bitmap = (Bitmap)Image.FromFile(file);
                 bitmap = new Bitmap(file);
                 fileName = file;
                 return true;

@@ -1,12 +1,9 @@
 ﻿using Paint.Model;
 
-namespace Paint
+namespace Paint.Controllers
 {
   public class ToolBarController
   {
-    private IToolBarView toolBarView;
-    private PaintModel model;
-
     public ToolBarController(PaintModel model, IToolBarView toolBarView)
     {
       this.model = model;
@@ -14,6 +11,9 @@ namespace Paint
 
       this.toolBarView.ButtonClicked += OnButtonClick;
     }
+
+    private PaintModel model;
+    private IToolBarView toolBarView;
 
     private void OnButtonClick(string toolName)
     {
@@ -24,7 +24,7 @@ namespace Paint
       }
       if (toolName == "lineBtn")
       {
-        //chosenTool = new LineTool(toolArgs);
+        chosenTool = new LineTool();
       }
       else if (toolName == "rectangleBtn")
       {
@@ -59,7 +59,7 @@ namespace Paint
         //chosenTool = new BrushTool(toolArgs, BrushToolType.Eraser);
       }
 
-      model.tool = chosenTool;
+      model.DrawingTool = chosenTool;
     }
   }
 }

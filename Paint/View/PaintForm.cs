@@ -28,43 +28,9 @@ namespace Paint
       toolBarView = toolBarUserControll;
     }
 
-    private ImageFile imageFile;
-    private Tool curTool;
-    private void PaintForm_Load(object sender, EventArgs e)
-    {
-      FillFillStyleList();
-      FillShapeStyleList();
-      FillWidthList();
-      FillGradientStyleList();
-
-      brushImageBox.Image = new Bitmap(20, 20);
-    }
-
-    private Bitmap bitmap;
-    public void ShowImage(ImageFile imageFile)
-    {
-      string fileName = imageFile.FileName;
-      if (fileName == null)
-        fileName = "Untitled";
-      else
-        fileName = new FileInfo(fileName).Name;
-      Text = string.Format("Paint - [{0}]", fileName);
-
-      imageBox.ClientSize = imageFile.Bitmap.Size;
-      imageBox.Invalidate();
-      bitmap = imageFile.Bitmap;
-
-      if (curTool != null)
-        curTool.UnloadTool();
-      //curTool = new PointerTool(toolArgs);
-      SetToolBarButtonsState(arrowBtn);
-    }
-
     #region ToolBar
-
     private void toolsBar_ButtonClick(object sender, ToolBarButtonClickEventArgs e)
     {
-      curTool.UnloadTool();
       ToolBarButton curButton = e.Button;
       SetToolBarButtonsState(curButton);
     }
@@ -80,7 +46,24 @@ namespace Paint
     }
     #endregion
 
-    #region imageBox
+    #region PictureView
+    private Bitmap bitmap;
+    public void ShowImage(ImageFile imageFile)
+    {
+      string fileName = imageFile.FileName;
+      if (fileName == null)
+        fileName = "Untitled";
+      else
+        fileName = new FileInfo(fileName).Name;
+      Text = string.Format("Paint - [{0}]", fileName);
+
+      imageBox.ClientSize = imageFile.Bitmap.Size;
+      imageBox.Invalidate();
+      bitmap = imageFile.Bitmap;
+
+      SetToolBarButtonsState(arrowBtn);
+    }
+
     private void imageBox_Paint(object sender, PaintEventArgs e)
     {
       Rectangle clipRect = e.ClipRectangle;
@@ -90,7 +73,17 @@ namespace Paint
     }
     #endregion
 
-    #region settingsPanel
+    #region SettingsPanelView
+    private void PaintForm_Load(object sender, EventArgs e)
+    {
+      FillFillStyleList();
+      FillShapeStyleList();
+      FillWidthList();
+      FillGradientStyleList();
+
+      brushImageBox.Image = new Bitmap(20, 20);
+    }
+
     private void FillGradientStyleList()
     {
       for (int i = 0; i < 4; i++)
@@ -277,7 +270,7 @@ namespace Paint
     }
     #endregion
 
-    #region menu
+    #region MenuView
     private MenuController menuController;
     public void SetMenuController(MenuController menuController)
     {
