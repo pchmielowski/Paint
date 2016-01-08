@@ -160,7 +160,6 @@
     <Compile Include="Enumerations.cs" />
     <Compile Include="Tools\FillTool.cs" />
     <Compile Include="ImageFile.cs" />
-    <Compile Include="Tools\LineTool.cs" />
     <Compile Include="NewDialog.cs">
       <SubType>Form</SubType>
     </Compile>

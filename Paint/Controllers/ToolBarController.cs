@@ -24,13 +24,13 @@ namespace Paint.Controllers
       }
       if (toolName == "lineBtn")
       {
-        chosenTool = new LineTool();
+        //toolArgs.pictureBox.Cursor = Cursors.Cross;
+        chosenTool = new ShapeTool(new LineCreator());
       }
       else if (toolName == "rectangleBtn")
       {
-        ShapeCreator shapeCreator = new RectangleCreator();
         //toolArgs.pictureBox.Cursor = Cursors.Cross;
-        chosenTool = new ShapeTool(shapeCreator);
+        chosenTool = new ShapeTool(new RectangleCreator());
       }
       else if (toolName == "pencilBtn")
       {
@@ -42,9 +42,8 @@ namespace Paint.Controllers
       }
       else if (toolName == "ellipseBtn")
       {
-        ShapeCreator shapeCreator = new ElipseCreator();
         //toolArgs.pictureBox.Cursor = Cursors.Cross;
-        chosenTool = new ShapeTool(shapeCreator);
+        chosenTool = new ShapeTool(new ElipseCreator());
       }
       else if (toolName == "textBtn")
       {
