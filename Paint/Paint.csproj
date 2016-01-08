@@ -168,7 +168,7 @@
       <DependentUpon>NewDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\PencilTool.cs" />
-    <Compile Include="Tools\RectangleTool.cs" />
+    <Compile Include="Tools\ShapeTool.cs" />
     <Compile Include="Tools\RectangleToolBase.cs" />
     <Compile Include="TextDialog.cs">
       <SubType>Form</SubType>

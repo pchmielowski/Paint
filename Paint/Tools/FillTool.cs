@@ -94,13 +94,6 @@ namespace Paint
       //}
     }
 
-    public override void UnloadTool()
-    {
-      //args.bitmap.UnlockBits(bData);
-      //args.pictureBox.Cursor = Cursors.Default;
-      //args.pictureBox.MouseClick -= new MouseEventHandler(OnMouseClick);
-    }
-
     private void FloodFillScanlineStack(int x, int y, Color newColor, Color oldColor)
     {
       //if (oldColor.ToArgb() == newColor.ToArgb())

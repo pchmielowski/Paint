@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace Paint
@@ -17,7 +14,6 @@ namespace Paint
     public LineTool()
     {
       drawing = false;
-      //args.pictureBox.Cursor = Cursors.Cross;
     }
 
     public override void StopDrawing(MouseEventArgs e)
@@ -31,7 +27,7 @@ namespace Paint
         // free resources
         pen.Dispose();
         delBrush.Dispose();
-        g.Dispose();
+        pictureToDrawOn.Dispose();
       }
     }
 
@@ -39,9 +35,9 @@ namespace Paint
     {
       if (drawing)
       {
-        ClearOldShape(delBrush);
+        ClearTempShapes(delBrush);
 
-        g.DrawLine(pen, beginingPosition, e.Location);
+        pictureToDrawOn.DrawLine(pen, beginingPosition, e.Location);
         //args.pictureBox.Invalidate();
       }
     }
@@ -57,11 +53,6 @@ namespace Paint
       //pen.DashStyle = args.settings.LineStyle;
 
       //delBrush = new TextureBrush(args.bitmap);
-    }
-
-    public override void UnloadTool()
-    {
-      //args.pictureBox.Cursor = Cursors.Default;
     }
   }
 }

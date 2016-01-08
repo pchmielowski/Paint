@@ -22,9 +22,5 @@ namespace Paint
     public override void StopDrawing(MouseEventArgs e)
     {
     }
-
-    public override void UnloadTool()
-    {
-    }
   }
 }

@@ -8,7 +8,7 @@ namespace Paint
     public virtual Brush fillBrush_ { get; set; }
     public virtual void CreateGradient(RectangleF rect) { } // TODO: private
 
-    public virtual void DrawOnGraphics(GraphicsPath shapeAsGraphicsPath, Graphics g) { }
+    public virtual void DrawShapeOnGraphics(GraphicsPath shapeAsGraphicsPath, Graphics g) { }
 
     public void setPen()
     {
@@ -30,7 +30,7 @@ namespace Paint
       set { styleToDecorate.fillBrush_ = value; }
     }
     public override void CreateGradient(RectangleF rect) { styleToDecorate.CreateGradient(rect); }
-    public abstract override void DrawOnGraphics(GraphicsPath shapeAsGraphicsPath, Graphics g);
+    public abstract override void DrawShapeOnGraphics(GraphicsPath shapeAsGraphicsPath, Graphics g);
   }
 
   #region Decorators
@@ -42,9 +42,9 @@ namespace Paint
       this.styleToDecorate = styleToDecorate;
       styleToDecorate.setPen();
     }
-    public override void DrawOnGraphics(GraphicsPath shapeAsGraphicsPath, Graphics g)
+    public override void DrawShapeOnGraphics(GraphicsPath shapeAsGraphicsPath, Graphics g)
     {
-      styleToDecorate.DrawOnGraphics(shapeAsGraphicsPath, g);
+      styleToDecorate.DrawShapeOnGraphics(shapeAsGraphicsPath, g);
       g.DrawPath(outlinePen_, shapeAsGraphicsPath);
     }
   }
@@ -55,9 +55,9 @@ namespace Paint
     {
       this.styleToDecorate = styleToDecorate;
     }
-    public override void DrawOnGraphics(GraphicsPath shapeAsGraphicsPath, Graphics g)
+    public override void DrawShapeOnGraphics(GraphicsPath shapeAsGraphicsPath, Graphics g)
     {
-      styleToDecorate.DrawOnGraphics(shapeAsGraphicsPath, g);
+      styleToDecorate.DrawShapeOnGraphics(shapeAsGraphicsPath, g);
 
       Region shapeAsRegion = new Region(shapeAsGraphicsPath);
       RectangleF rr = shapeAsRegion.GetBounds(g);

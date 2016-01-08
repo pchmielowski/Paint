@@ -33,29 +33,32 @@ namespace Paint.Model
       pictureView.ShowImage(imageFile);
     }
 
+    private bool inDrawingState = false;
     public void StartDrawing(MouseEventArgs e)
     {
       IStyle brushManager = StyleFactory.createStyle(settings);
       if (drawingTool != null)
       {
         drawingTool.StartDrawing(e, brushManager);
+        inDrawingState = true;
       }
     }
 
     public void UpdateMousePosition(MouseEventArgs e)
     {
-      if (drawingTool != null)
-      {
-        drawingTool.UpdateMousePosition(e);
-      }
+      if (!inDrawingState || drawingTool == null)
+        return;
+
+      drawingTool.UpdateMousePosition(e);
     }
 
     public void StopDrawing(MouseEventArgs e)
     {
-      if (drawingTool != null)
-      {
-        drawingTool.StopDrawing(e);
-      }
+      if (!inDrawingState || drawingTool == null)
+        return;
+
+      drawingTool.StopDrawing(e);
+      inDrawingState = false;
     }
   }
 }

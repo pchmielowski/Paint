@@ -27,7 +27,7 @@ namespace Paint
       //args.pictureBox.Invalidate();
 
       penCfg_.Dispose();
-      g.Dispose();
+      pictureToDrawOn.Dispose();
     }
 
     public override void UpdateMousePosition(MouseEventArgs e)
@@ -35,7 +35,7 @@ namespace Paint
       Point currentPosition = e.Location;
       if (isDrawingState_)
       {
-        g.DrawLine(penCfg_, previousPosition, currentPosition);
+        pictureToDrawOn.DrawLine(penCfg_, previousPosition, currentPosition);
         //args.pictureBox.Invalidate();
         previousPosition = currentPosition;
       }
@@ -78,11 +78,6 @@ namespace Paint
     {
       return -1;
       //return args.settings.Width;
-    }
-
-    public override void UnloadTool()
-    {
-      //args.pictureBox.Cursor = Cursors.Default;
     }
   }
 }

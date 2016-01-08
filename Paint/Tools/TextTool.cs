@@ -26,10 +26,5 @@ namespace Paint
       //  args.pictureBox.Invalidate();
       //}
     }
-
-    public override void UnloadTool()
-    {
-      //args.pictureBox.Cursor = Cursors.Default;
-    }
   }
 }

@@ -7,7 +7,7 @@ namespace Paint
 {
   public abstract class Tool
   {
-    protected Graphics g;
+    protected Graphics pictureToDrawOn;
 
     protected Rectangle GetRectangleFromPoints(Point p1, Point p2)
     {
@@ -39,13 +39,11 @@ namespace Paint
     public abstract void UpdateMousePosition(MouseEventArgs e);
     public abstract void StartDrawing(MouseEventArgs e, IStyle brushManager);
 
-    public abstract void UnloadTool();
-
-    protected void ClearOldShape(Brush db)
+    protected void ClearTempShapes(Brush db)
     {
       Point rightDown = new Point(500, 500);
       Rectangle delRect = GetRectangleFromPoints(new Point(0, 0), rightDown);
-      g.FillRectangle(db, delRect);
+      pictureToDrawOn.FillRectangle(db, delRect);
     }
   }
 }
